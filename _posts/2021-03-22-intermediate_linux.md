@@ -19,12 +19,12 @@ used in conditionals to check whether a program finished successfully or not.
 
 The main Unix convention is that an exit status of `0` indicates that a program completed successfully,
 while any other value indicates that an error occurred. You can always assume that a "standard" Linux
-utility will follow this convention, and you should follow it in your own programs whenever possible
-(this is not just limited to C, you can bash scripts have exit statuses as well).
-There are unfortunately no conventions as to the meaning of nonzero statuses: often an exit status of
+utility will follow this convention and you should follow it in your own programs whenever possible
+(this is not just limited to C, bash scripts can have exit statuses as well).
+Unfortunately, there are no conventions as to the meaning of nonzero statuses: often an exit status of
 `1` is used as a catch-all error status, but individual programs assign their own meanings. If you need
 to check for a specific error condition, you'll need to consult the program's documentation or man page 
-beforehand. If you're writing a C program, it's a good idea to use the preprocessor defined
+beforehand. If you're writing a C program, it's a good idea to use the preprocessor defined constants
 `EXIT_SUCCESS` and `EXIT_FAILURE` (defined in `stdlib.h`) when exiting the program, since the compiler
 should set them to a sensible value for your target platform.
 
@@ -37,8 +37,8 @@ do
     # Do work and access $index_var here
 done
 ```
-where `index_var` can have any name, and can only be accessed inside the body of the loop. As bash steps
-through the loop, `index_var` will take on the value of each successive element of the sequence.
+where `index_var` can have any name, and should only be accessed inside the body of the loop. As bash 
+steps through the loop, `index_var` will take on the value of each successive element of the sequence.
 
 For example, we can make a for loop over indices by writing:
 ```
@@ -47,14 +47,15 @@ do
     echo $i
 done
 ```
-Since each line is its own separate command, we can squash a loop into one line by using semicolons (";") to
-delimit commands:
+Since each line is its own separate command, we can squash a loop into one line by using semicolons (";")
+to delimit commands:
 ```
 for i in {1..10}; do echo $i; done
 ```
 
-Also note that integer ranges in bash can start and stop at any value, and can have non-unit step sizes
-via the syntax `{start..end..increment}`.
+Also note that integer ranges in bash can start and stop at any value and can have non-unit step sizes
+via the syntax `{start..end..increment}`, so to loop from 0 to 10 in increments of 5 you would write
+`{0..10..5}`.
 
 ## Conditionals
 Conditionals (if-then-else statements) in bash are implemented with the somewhat unusual syntax:
@@ -75,12 +76,12 @@ optional.
 The actual comparison operation must be encased in one of the following brackets:
 
 - `[[ COND ]]` is for string comparisons
-- '(( COND ))` is for numerical (arithmetic) comparisons
+- `(( COND ))` is for numerical (arithmetic) comparisons
 Note that the spaces between the conditional and the brackets is important.
 
 Bash accepts the common comparison operators: `>`, `<`, `==`, `!=`. There are also some shell-specific
-conditionals such as checking whether a file exists `[[ -e filename ]]`, full list of which can be found
-in the [GNU bash online
+conditionals such as checking whether a file exists `[[ -e filename ]]`, a full list of which can be 
+found in the [GNU bash online
 manual](https://www.gnu.org/software/bash/manual/html_node/Bash-Conditional-Expressions.html). [^1]
 
 [^1]: Note that the `[` and `[[` brackets are *not* simply syntax for if-statements. `[` is a 
@@ -111,10 +112,10 @@ then
 fi
 ```
 
-Finally, an important and common gotcha to avoid:
-Note that I didn't put "$" in front of variables in comparisons. You technically *can* use `$VAR`,
-but bash will still interpret the variable without it, and "$" in the conditional will break if the 
-variable is unset or non-existent.
+Finally, an important and common gotcha to avoid: we didn't put "$" in front of variables in 
+comparisons, which is different to the usual way to access variables. You technically *can* use `$VAR`,
+but the conditional will still work as expected without it, and using a "$" in the conditional will 
+break if the variable is uninitialised or non-existent.
 
 ## Arrays
 Bash has arrays, which have the syntax `things=(thing1 thing2 thing3)` and can be looped through by
@@ -127,9 +128,9 @@ do
 done
 ```
 Looping over arrays will work even if the individual elements contain whitespace or special characters 
-in their names, which is safer than using a stream of text (which is split on whitespace when used in a
+in their names, which is safer than looping over plain text (which is split on whitespace when used in a
 loop). Unfortunately, it is not possible to return arrays from a function or program, so they're only
-really useful as local variables.
+really useful for local variables.
 
 ## Advanced use of find
 The `find` utility is very useful for searching through the file system, but it has many more uses than those outlined in our [introductory tutorial](/intro-linux/). For starters, `find` has multiple types of
@@ -148,10 +149,10 @@ tests you can use to further refine the search:
   accessed *more* than `n` days ago, `-n` will search for files accessed *less* than `n` days ago and
   `n` will search for files accessed *exactly* `n` days ago. Note that this is not the same as searching
   for when a file was created, modifying an old file will update its `mtime` but not its creation time
-  (which there isn't really a portable way to test that works on all file systems).
-- `mmin n`: similar to `mtime`, but the modification time is measured in minutes rather than days.
+  (there isn't really a way to test file creation time which works across all systems).
+- `-mmin n`: similar to `mtime`, but the modification time is measured in minutes rather than days.
 
-Multiple tests can be specified in a single `find` command to further narrow the search, which each test
+Multiple tests can be specified in a single `find` command to further narrow the search, with each test
 requiring its own flag (even if multiple tests of the same type are used, such as `find -name "*foo*"
 -name "*bar*"`). By default, specifying multiple tests will search for files which match *all* tests,
 but this behaviour can be modified through the use of the logical operators `-o` (OR) and `-a`. For
@@ -162,9 +163,10 @@ two queries with `-o` to get:
 find . \( -name '*.txt' -o -name '*.dat' \)
 ```
 
-Note the "\" before the brackets. Brackets have a special meaning in bash, so we must quote them to
-prevent bash from trying to interpret them as an arithmetic conditional. The quotations around the
-wildcards are to ensure that they are passed to `find` as-is: unquoted, bash would expand them to
+Note the backslash ("\\") preceding the brackets. Brackets have a special meaning in bash, so we must 
+quote them to prevent bash from trying to interpret them as an arithmetic conditional. Furthermore, the 
+quotations around the
+wildcards are to ensure that they are passed directly to `find`: unquoted, bash would expand them to
 provide a list of files matching the pattern *in the current directory*, which would then be passed to
 `find` (which is not what we want to do). Multiple logical operators can be chained together, with the
 resulting query following de Morgan's laws of Boolean algebra (e.g. expanding bracketed expressions). 
@@ -181,10 +183,11 @@ each matching file, which is provided as a set of flags *after* the set of tests
 action is to print the filenames (which is also specified by the`-print` flag), but two other useful 
 actions are:
 
-- `delete`: delete all files which match the search criteria. This action can be extremely destructive
+- `-delete`: delete all files which match the search criteria. This action can be extremely destructive
+  (as in, "wipe out your file system"-level destructive)
   if you make a mistake in the search criteria, so make sure to do a test-run with `-print` first to
   make sure you're deleting the right set of files.
-- `print0`: print the names of the files, separated by `NUL` characters rather than whitespace. The
+- `-print0`: print the names of the files, separated by `NUL` characters rather than whitespace. The
   `NUL` character (`\0`) is the only character which is not legal in Unix filenames, or in shell
   commands, so is much safer than the whitespace-separated `-print` when piping `find`'s output into 
   other shell commands (it doesn't run into the issue of bash interpreting filenames with spaces as
@@ -200,14 +203,14 @@ arbitrarily complex manipulations and shell commands.
 shell programmer's toolkit. To quote from the man page: *xargs reads items from the standard input, 
 delimited by blanks (which can be protected with double or single quotes or a backslash) or newlines,
 and executes the command (default is /bin/echo) one or more times with any initial-arguments followed by
-items read from standard input*. Translating, `xargs` behaves like a safer for-loop, which takes a set
+items read from standard input*. Basically, `xargs` behaves like a safer for-loop, which takes a set
 of arguments to execute, and runs through them one by one. You'd almost never use `xargs` by itself, but
 rather as part of a pipeline where its arguments are piped in from the output of another command. 
 
 As mentioned above, one common pattern is to pipe the output of `find` into `xargs` to execute some
-command on every file which matches the given criteria. Also as previously mentioned (and you may be
-sensing a theme here), the possibility of whitespace or newlines in filenames means that you cannot 
-safely use `find` and `xargs` together using only whitepsace-separated lists of files. Fortunately,
+command on every file which matches the given criteria. The possibility of whitespace or newlines in 
+filenames means that you cannot safely use `find` and `xargs` together using only whitepsace-separated 
+lists of files, as any unusual filenames will break the pipeline. Fortunately,
 `xargs` provides the `-0` flag, which tells `xargs` to separate the input elements by a `NUL` character,
 so files containing whitespace will be treated as a single argument. 
 
@@ -221,29 +224,31 @@ find ./data -name "*.inp" -mtime -30 -print0 | xargs -0 grep "some_string"
 
 This pipeline will safely handle filenames containing whitespace, as well as filenames starting with a
 hyphen, since the filenames will all start with `./data/...` (so there is no chance of them being
-interpreted as a command-line flag).
+interpreted as a command-line flag). Using `find` as the first command in the pipeline allows for much
+finer granularity in selecting files when compared to just using shell wildcards.
 
-Another extremely useful example of `xargs` involves deleting large numbers of files from distributed
-file systems. Parallel HPC clusters typically use a file system which is shared across multiple nodes 
-and accessible everywhere on the cluster (and sometimes shared between clusters managed by the same
-facility), called a distributed file system. It is usually inefficient to run `rm` on huge numbers of
-files stored on a distributed file system, and some HPC centres such as the Pawsey centre discourage its
-use for this reason. Instead, *Lustre* (a common distributed file system) provides the `munlink`
-command, which stresses the file system less than a standard deletion. When deleting large numbers of
-files, it's therefore best to use `find` to select the files for deletion, then pipe through `xargs -0
-munlink` to remove the files. More information can be found in the [Magnus userguide](https://support.pawsey.org.au/documentation/display/US/Deleting+large+numbers+of+files+on+scratch+and+group), and you 
-should strongly consider using this pattern to avoid slowing down the filesystem for other users (and
-potentially getting a cranky email from the Pawsey system administrators).
+Another extremely important use of `xargs` is efficiently deleting large numbers of files from 
+HPC file systems. Parallel HPC clusters typically use a file system which is shared across 
+multiple nodes and accessible everywhere on the cluster (and sometimes shared between clusters managed 
+by the same facility), called a distributed file system. It is usually inefficient to run `rm` on huge 
+numbers of files stored on a distributed file system, and some HPC centres such as the Pawsey centre 
+discourage its use for this reason. Instead, *Lustre* (a common distributed file system) provides the 
+`munlink` command, which stresses the file system less than a standard deletion. When deleting large 
+numbers of files, it's therefore best to use `find` to select the files for deletion, then pipe through 
+`xargs -0 munlink` to remove the files. More information can be found in the [Magnus 
+userguide](https://support.pawsey.org.au/documentation/display/US/Deleting+large+numbers+of+files+on+scratch+and+group), 
+and you should strongly consider using this pattern to avoid slowing down the filesystem for other users
+(and potentially getting a cranky email from the Pawsey system administrators).
 
 Although there are other methods for repeatedly executing commands on groups of files (e.g. using an
 explicit for-loop), `find` + `xargs` is the safest way of implementing this pattern. You should prefer
 using `xargs` to explicit loops over files unless you encounter a problem which absolutely cannot be
-achieved with `xargs`.
+solved with `xargs`.
 
 ### GNU parallel
-A similar tool to `xargs` is `GNU parallel`, which also executes commands with arguments read from
+A similar tool to `xargs` is GNU `parallel`, which also executes commands with arguments read from
 standard input, but attempts to execute commands using multiple cores (i.e. in parallel) whenever 
-possible. `GNU parallel` is extremely powerful and allows you to very easily utilise modern multicore
+possible. GNU `parallel` is extremely powerful and allows you to very easily utilise modern multicore
 processors in simple shell-scripts, but it's also full of subtle pitfalls. If you think `parallel` would
 be a good fit for your workload (e.g. running many instances of single-core, compute intensive jobs), I
 would highly recommend reading the man page (`man parallel`) in full before venturing forth.
@@ -264,17 +269,17 @@ forward.
 
 It is possible to suspend interactive command-line programs like `vim` or `less` by pressing `ctrl+z`.
 This is not always useful, as a text editor won't actually *do* anything until you bring it back
-to the foreground with `fg` and keep giving it commands, but it can be handy if you want to "pause" an
-editing session to go and run some other command before returning to the session where you left off.
+to the foreground with `fg`, but it can be handy if you want to "pause" an editing session to run some 
+other command before returning to the session where you left off.
 
-## Dealing with processes and signals
+## Processes and signals
 
 Separate to bash's idea of *jobspec*, the Linux kernel assigns each running process with a *process ID*
 (PID), which can be used to refer to and modify that process while its running. Each PID is guaranteed
-to be associated with exactly one process at any given time, but PIDs can (but are not guaranteed to) be
-reused after a process has finished executing.
+to be associated with exactly one process at any given time, but PIDs can be (but are not guaranteed to 
+be) reused after a process has finished executing.
 
-PIDs are commonly used when doing *inter-process communication* (IPC): sending messages between
+PIDs are commonly used for *inter-process communication* (IPC): sending messages between
 processes as a form of coordination. The simplest way to do this on Linux (and other Unices like macOS)
 is by sending a *signal* to a process. The process must then handle the signal, which can be done
 through custom *signal handler* subroutines or delegated to the kernel (the part of the operating system
@@ -288,9 +293,9 @@ The kernel will automatically send signals to processes for a number of reasons,
 to send your own signals at will. In bash, this is achieved via the `kill` command, with `kill -l`
 providing a list of all signals supported on your system. `kill` is invoked with the syntax `kill
 -<SIGNAL> <PID>`, where `SIGNAL` is the last component of the signal's name (i.e. `kill -TERM PID`). If 
-no signal is specified then it defaults to sending `TERM`, which will terminate the process. You are 
-only permitted to send signals to processes you own (unless the system is set up with special 
-privileges). Finally, the related command `killall` will send a signal to all processes sharing a given 
+no signal is specified then it defaults to sending `TERM`, which will terminate the process. For
+security reasons, you are only permitted to send signals to processes you own.
+Finally, the related command `killall` will send a signal to all processes sharing a given 
 name (e.g. `killall -TERM firefox` will terminate all running instances of `firefox`), but this command 
 should be used with caution.
 
@@ -300,10 +305,9 @@ Manager*), in which case each process's PID will be supplied next to its name, o
 consumption. Even though most clusters will not have a graphical system monitor, they will usually have
 a command-line program called `top`, which provides similar functionality and will list active PIDs. The
 second, programmatic, way to get a process's PID is to use the command `pidof <name>` or 
-`pgrep <pattern>` to search for processes by name, potentially including wildcard patterns. `pidof` 
-searching for processes which exactly match the
-supplied string, while `pgrep` will search for partial matches (with similar syntax to regular `grep`)
-as well as other criteria like user ID.
+`pgrep <pattern>` to search for processes by name. `pidof` searching for processes which exactly match 
+the supplied string, while `pgrep` will search for partial matches (with similar syntax to regular 
+`grep`) and can be used with other criteria like user ID.
 
 Finally, many debugging and profiling programs can attach to a running process via its PID. For example,
 it's possible to use `GDB` (the GNU debugger) to start debugging an already running process via the
@@ -311,13 +315,14 @@ command-line option `-p <PID>`. So if you start a simulation `./prog` and suspec
 (e.g. it appears to hang and not produce output), you would first get its PID with `pidof prog` and then
 run GDB with `gdb -p PID` [^2]. You can either copy-paste the PID between commands, or merge them into
 one command by `gdb -p $(pgrep prog)` (the `$(...)` syntax tells bash to make an environment variable
-which has its value set to the output of the command in brackets.
+which has its value set to the output of the command in brackets).
 
 [^2]: This process is somewhat complicated for MPI calculations, since `mpirun` will spawn multiple
     processes with the same name, thus causing `pidof` and `pgrep` to return multiple PIDs. Debugging 
     MPI programs turns out to be somewhat involved (for this and many other reasons), but [the OpenMPI
-    FAQ](https://www.open-mpi.org/faq/?category=debugging#serial-debuggers) has a good walkthrough of
-    using GDB to debug MPI programs.
+    FAQ](https://www.open-mpi.org/faq/?category=debugging#serial-debuggers) has a good walkthrough
+    explaining how to use GDB to debug MPI programs.
+
 ## Hard links and symbolic links
 Unix filesystems allow files to be referenced by multiple filenames and paths without duplicating the
 underlying contents; this is called a *link* and is analogous to shortcuts in Windows File Explorer or
@@ -328,13 +333,15 @@ A symlink is a high-level pointer which refers to some file located anywhere on 
 (potentially including on remote file servers or directories), which could be a regular file, a 
 directory or something more exotic. Symlinks can be opened or `cd`'d into as if they were a regular
 file, and the kernel will automatically resolve the action to point to the underlying, "real" file. The
-exeption is that deleting a symlink with `rm` will only remove the symbolic link while leaving the
+exception is that deleting a symlink with `rm` will only remove the symbolic link while leaving the
 underlying file untouched. 
 
 Symbolic links are created with the `ln` command, which has the syntax:
+
 ```
 ln --symbolic <target> <link_name>
 ```
+
 where `target` is the original file (or directory), and `link_name` is self-explanatory and can be
 either a relative or absolute filename. Hard links (which can only point to files on the current
 flesystem) are created with the same syntax, but without the `--symbolic` flag. Symlinks appear
@@ -351,11 +358,11 @@ directory, but with the same name on each system. For example, you might make a 
 which is much more convenient than typing the full path each time.
 
 Finally, symbolic links will remain even after the underlying file is deleted (or may not have existed
-in the first place), which is referred to as a *dangling symlink*. Trying to access a danlging symlink
+in the first place), which is referred to as a *dangling symlink*. Trying to access a dangling symlink
 will fail, but this can be useful in some cases, 
 such as making a symbolic link to an executable: you don't want to have to make a new symlink every time
-you do a clean build (i.e. deleting and recompiling the binary), so dangling symlinks become valid again
-once the original file returns.
+you do a clean build (i.e. deleting and recompiling the binary), so you can make a symlink, which will
+dangle and then become valid when the file exists again.
 
 ## Programming in bash
 In addition to its interactive use, bash is also a fully-capable programming language (albeit one with
@@ -364,59 +371,64 @@ worth stopping to consider whether you *should*.
 
 Bash (the language) is powerful, yes, but it's also chock full of gotchas and footguns [^3] that can and
 will break your program if you're not extremely careful. Thankfully, these gotchas are documented, but 
-bash will not warn you before doing something destructive, so it's extremely easy to do something
-terrible like accidentally blow away all your files. That last part is not hyperbole, by the way: the
+bash will not warn you before doing something destructive, so it's extremely easy to accidentally do 
+something terrible like blow away all your files. That last part is not hyperbole, by the way: the
 Steam video game store had [a nasty bug](https://github.com/ValveSoftware/steam-for-linux/issues/3671)
 in a shell script caused by calling `rm -r ${STEAMROOT}/*` without checking whether the `STEAMROOT`
 variable was actually set. Unlike many other programming languages, bash lets you use variables without
 declaring them first, and will just expand uninitialised variables to NULL, which in this
-case caused the script to execute `rm -r /*` (the root directory) and deleted every file owned by the
-logged-in user. 
+case caused the script to execute `rm -r /*` (the root directory) and deleted everything on the user's
+computer.
 
 [^3]: i.e. a language feature which seemingly only exists to allow you to shoot yourself in the foot.
 
 This is an extremely bad bug, but it's actually surprisingly common in shell scripts (even those written
 by experienced programmers). And this is just one gotcha among many. There's also the alphabet soup of
 special variables (e.g. `$?` which stores the status of the last run process, `$!` which stores the
-process ID of the last process), the difficulty of safely handling whitespace in variables or file-names
-(let alone newlines) and the fact that running commands in a pipe executes them in a subshell (so any
-variables you assign in a pipeline will be inaccessible to the calling process). Note that I didn't call
-bash a *bad* programming language, merely an idiosyncratic one. Bash can be incredibly
-useful if you get it right, but even the best-written bash scripts tend to be very fragile to small 
-changes in the execution environment.
+process ID of the last process; you don't want to get these confused), the difficulty of safely handling
+whitespace in variables or file-names (let alone newlines) and the fact that running commands in a pipe 
+executes them in a subshell (so any variables you assign in a pipeline will be inaccessible to the 
+calling process). Note that I didn't call bash a *bad* programming language, merely an idiosyncratic 
+one. Bash can be incredibly useful if you get it right, but even the best-written bash scripts tend to 
+be very fragile and liable to blow up in the user's face.
 
 So should you use complex bash scripts? It depends. For relatively short tasks like wrapping a pipeline
 (gluing several programs together) 
 or setting up the execution environment for an HPC job then a bash script is the right tool for
-the job. But if you find yourself writing complicated branching logic, especially for a task you're
-likely to re-use or adapt multiple times, it might be best to avoid bash entirely to reduce the risk of
-the script blowing up in your face down the track. Consider using Python instead: there are modules
+the job. But if you find yourself writing complicated branching logic and fancy arithmetic, especially 
+for a task you're likely to re-use or adapt multiple times, it might be safest to avoid bash entirely. 
+
+Consider using Python instead: there are modules
 which allow you to access command-line utilities, manipulate files and processes and access remote
-resources. Python also has the benefit of robust unit testing frameworks and a more consistent syntax
-so it's easier to make more robust and reliable python scripts than the equivalent in bash. These two 
+resources. Python also has the benefit of a more consistent syntax and robust unit testing frameworks,
+making it safer and more reliable than the equivalent bash scripts. These two 
 tutorials give a good overview: 
 <https://medium.com/capital-one-tech/bashing-the-bash-replacing-shell-scripts-with-python-d8d201bc0989>,
 <https://stackabuse.com/executing-shell-commands-with-python/>. You can't do everything in Python, but 
-for many complex tasks it's a better choice of tool than hacking together a huge shell script.
+for many complex tasks it's a better choice of tool than hacking together a huge shell script. If Python
+doesn't work for you, it's also worth considering using [Perl](https://www.perl.org/), which is
+extremely flexible and safer than bash.
 
-For the times when you *do* need to use bash, here are some important concepts and guidelines.
+For the times when you *do* need to use bash, here are some important concepts and guidelines to keep in
+mind.
 
 ### Common footguns to avoid
 There are many lists of bash [gotchas](https://tldp.org/LDP/abs/html/gotchas.html),
 [anti-patterns](https://brbsix.github.io/2015/11/29/bash-scripting-dos-and-donts/) and
 [pitfalls](https://mywiki.wooledge.org/BashPitfalls) on the internet. What follows are some of the more
-common (or destructive) ones to look out for:
+risky ones to look out for:
 
 - Consider using `set -ue` to prevent the use of uninitialised variables.
 - Check that the system you're running a script on *actually* has bash. It might only have the older 
-  `sh`, or forcibly re-direct `/bin/bash` to something weird like `zsh` or `ash`. It might have bash,
-  but only have an old version, which will not work with scripts using newer features. This is far more
-  common than you might expect.
+  `sh`, or forcibly re-direct `/bin/bash` to something weird like `ash` or `dash`. Some systems only 
+  have ancient versions of bash, which will not work with scripts using newer features. This is far more
+  common than you might expect (you're likely to encounter weird shells on really old servers, or in 
+  containers using lightweight Linux distributions as the base OS).
 - Command-line utilities like `awk`, `grep` or `rsync` can have subtly different options or usage on
   different Unix systems. For example, most (but not all) Linux distributions use "GNU Awk" (`gawk`),
   while macOS uses "New Awk" (`nawk`). Despite its name, "New Awk" is older than "GNU Awk", so there are
-  several features which exist in `gawk` (on Linux) but are not available in `nawk` (on Mac). This can
-  cause scripts to break in unexpected ways.
+  several features which exist on Linux but are not available in on Mac. This can cause scripts to break
+  in unexpected ways.
 - All variables are global unless specified otherwise. They are not inherited by sub-processes
   (including subshells) unless `export`ed however.
 - Bash treats all data as strings of text unless you specifically request otherwise, meaning that
@@ -426,10 +438,9 @@ common (or destructive) ones to look out for:
   and `var2=10.0`, then `[[ var1 = var2 ]]` will evaluate to false, since `10` and `10.0` are different
   *strings*, even if they have the same numeric value.
 
-  If you need to compare
-  numerical variables, you need to use `[[ var1 -eq var2 ]]` (there are similar operators `-ne`,`-lt`, 
-  `-le`, `-gt`, `-ge`) or replace the square brackets with `((...))` to force bash to do a
-  numerical comparison.
+  If you need to compare numeric variables, you instead need to use `[[ var1 -eq var2 ]]` (there are 
+  similar operators `-ne`,`-lt`, `-le`, `-gt`, `-ge`) or replace the square brackets with `((...))` to 
+  force bash to do a numerical comparison.
 - Bash does not allow [^4] certain special characters in variable names: 
   
   * dots ("."),
@@ -443,8 +454,8 @@ common (or destructive) ones to look out for:
   words](https://www.gnu.org/software/bash/manual/html_node/Reserved-Word-Index.html) or [special
   characters](http://mywiki.wooledge.org/BashGuide/SpecialCharacters).
 
-[^4]: More accurately, bash will not prevent you from using some of these in your variable names, but it
-    might horribly break things without warning.
+[^4]: More accurately, bash will not prevent you from using some of these in your variable names, but 
+    your script might blow up without warning.
 
 - Bash is extremely particular about whitespace, to the point where the presence or absence of a "space"
   can cause radically different behaviour. One common pitfall is that whitespace is not allowed on 
@@ -452,15 +463,20 @@ common (or destructive) ones to look out for:
   will treat `x` as if it were a program, and try to execute it with the arguments `=` and `10`).
   Another common error is that the whitespace inside a comparison is significant: `[[ var1 = var2 ]]` is
   allowed, but `[[var1 = var2]]` will (probably) fail (bash will look for a variable named
-  `[[var1]`). Finally, as previously mentioned, whitespace in filenames is a huge headache to deal with,
+  `[[var1`). 
+  
+  Finally, as previously mentioned, whitespace in filenames is a huge headache to deal with,
   so it's best to avoid entirely (I tend to use underscores instead, in the form 
-  `multiple_word_name.txt`).
+  `multiple_word_name.txt`). Unfortunately, there's no guarantee that other programs (or other users)
+  will respect the "no-whitespace" rule, so you must be very careful every time you write a script which
+  deals with files - treat every file you don't personally write out as if it was written by a
+  hostile adversary determined to break your computer.
 
 - Quotation marks are significant: enclosing something single- vs double-quotes (`'` and `"`) has 
-  different meanings in bash. Text enclosed in single-quotes will be treated as a string literal and
-  nothing more, stripping all special-characters within them of meaning, so variables will not be 
-  substituted, wildcards will not be expanded and escape sequences will not be handled. Single-quoted 
-  strings can include any special-character (e.g. '$', '&', '\') and bash will not attempt to parse
+  different meanings in bash. Text enclosed in single-quotes will strip all special-characters within 
+  them of meaning, so variables will not be substituted, wildcards will not be expanded and escape 
+  sequences will not be handled. This is referred to as a *string literal*. Single-quoted 
+  strings can include any special-character (e.g. '$', '&', '\\') and bash will not attempt to parse
   them.
   
   Text enclosed in double-quotes will do variable substitution (so `"$var"` will resolve to a string
@@ -475,11 +491,12 @@ common (or destructive) ones to look out for:
   another command or the result of some text manipulation. If `$filename` happens to have the literal
   value "data \*.dat" (terrible but nonetheless legal Linux filename), the `rm $filename` will expand to
   `rm data *.dat` which will remove the file `data` and all files ending with `.dat`. This is probably 
-  not what you intended; double-quotes will prevent this from happening. Such strange filenames are 
-  uncommon, and you definitely shouldn't use them yourself, but it's best to use double-quotes since
-  these edge cases are extremely destructive if you do happen to run into one.
+  not what you intended. Double-quotes will prevent this from happening. Such strange filenames are 
+  uncommon, and you definitely shouldn't use them yourself, but these edge cases are extremely 
+  destructive if you do happen to run into one. You never know when some program will produce a file 
+  with a dangerous name, so it's best not to take any chances.
   
-  If you need to pass quoted variables to `cp`, `mv` or `rm`, you
+- If you need to pass quoted variables to `cp`, `mv` or `rm`, you
   may need to preface them with `--` to tell the program that there are no more command-line arguments 
   (e.g. `cp -- "$var1" "$var2"), otherwise any files which start with a hyphen will be interpreted as
   flags, leading to unexpected behaviour.
@@ -512,11 +529,12 @@ arguments with the same syntax as regular bash scripts (i.e. ${1}, ${2}, etc) an
 syntax:
 ```
 func() {
-  # Any bash commands can go here
+  # Do work here
 }
 ```
 
 and are called by doing:
+
 ```
 $ func arg1 arg2 arg3 ...
 ```
