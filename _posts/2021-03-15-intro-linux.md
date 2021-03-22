@@ -823,6 +823,34 @@ Finally, here are some useful commands, tips and tricks that didn't quite fit el
   to get files by doing `sftp $tinaroo`. It's a good idea to do this for all clusters you have access
   to, with each cluster getting its own variable on its own line in the `.bashrc` file.
 
+## Finding executables in non-standard directories
+In order to execute programs, bash needs to know the directory in which their executable file is stored.
+One way to do this by supplying the path (full or relative) when executing the command, such as
+`~/Code/lammps/bin/lmp args`, but what if you don't want to type out the full path every time you run
+the command?
+
+Whenever you run a command without providing the full path, bash searches through a list of pre-defined
+directories for an executable with that name and executes the first match it finds. This list is stored
+in the environment variable `PATH`, and takes the form of a list of directories (which must be absolute
+paths) separated by colons (":"). The best way to add new directories for bash to search when executing
+commands is to add a line to your `.bashrc` prepending the new directories to the existing list:
+```
+export PATH=/new/path/to/exe:$PATH
+```
+This command says to set the new value of `PATH` to the new directory *plus* the rest of the existing
+`PATH` list. We can't just set `PATH=/new/path/to/exe`, since that will override the default set of
+directories, so bash will no longer be able to find important system commands like `ls`, making your
+shell unusable.
+
+Returning to our original example, if we wanted to be able to run LAMMPS by just typing `lmp`, we can
+add its installation directory to the list of directories bash will automatically search through by
+adding the following line to `.bashrc`:
+```
+export PATH=/home/user/Code/lammps/bin/lmp:$PATH
+```
+
+This can be repeated as many times as needed for as many programs as you like.
+
 ## Test your knowledge
 One of the greatest demonstrations of the power of the UNIX shell came in the form of [dueling magazine 
 columns between two prominent computer scientists in the 
