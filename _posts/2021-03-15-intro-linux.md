@@ -521,8 +521,7 @@ rather than having to wait for the program to finish. Furthermore, if we wanted 
 $ ./prog | grep "CH4" | head -n 15 > output.txt
 ```
 
-[^1]: From the memo by Douglas McIllroy proposing the addition of pipes to (original) Unix:
-  http://doc.cat-v.org/unix/pipes/.
+[^1]: From the memo by Douglas McIllroy proposing the addition of pipes to (original) Unix: http://doc.cat-v.org/unix/pipes/.
 
 Pipes are one of the most important concepts covered in this document, and using them effectively is
 key to getting the most out of the Linux command-line.
@@ -924,9 +923,8 @@ McIlroy used it in his solution because `head` hadn't been written yet! You can 
 with `head -n ${1}` if you like [^2].
 
 [^2]: `sed` (stands for "stream editor") is a utility to programmatically manipulate and edit streams of
-  text (either text files for `stdin`) and is one of the most powerful shell tools in Linux. The keen
-  reader may appreciate going over [this unofficial
-  documentation](https://www.grymoire.com/Unix/Sed.html).
+    text (either text files for `stdin`) and is one of the most powerful shell tools in Linux. The keen
+    reader may appreciate going over [this unofficial documentation](https://www.grymoire.com/Unix/Sed.html).
 
 Now let's talk about `${1}`. Numbered shell variables store the arguments which were passed to the shell 
 script when launched. The first argument is stored in `$1`, the second is stored in `$2` and so on, so
