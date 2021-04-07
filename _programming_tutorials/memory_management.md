@@ -60,7 +60,7 @@ allocated them has finished.
 
 All three languages in this guide make the distinction between statically and
 dynamically allocated variables. Statically allocated variables have sizes
-which are known (or can be calculated) at compile time --- they do not
+which are known (or can be calculated) at compile-time --- they do not
 depend on any value which is set when running the program, such as command-line
 parameters or input files. Statically allocated variables are always placed on
 the stack. Dynamically allocated variables (for which the size is only known at
@@ -328,7 +328,7 @@ p = new int;
 ```
 
 Similarly, we can allocate space for an array of `n` integers (where `n` can be
-determined at either compile time or run time) by:
+determined at either compile time or run-time) by:
 
 ```
 int *p;
@@ -622,6 +622,101 @@ greatly simplify the process. These tools roughly fall into two categories: comp
 require you to recompile the code with particular flags or libraries, and runtime tools which do not
 require the code to be recompiled.
 
-### Compile time tools
+### Compile-time instrumentation tools
+All of the tools in this section require the code to be recompiled, which may not always be possible if
+using pre-built binaries (particularly for proprietary software). They tend to give better performance
+and more specific diagnostics than run-time tools, however, as they can leverage information from the
+compiler to mark-up the resulting code (especially if the binary is compiled with the `-g` flag to 
+insert debugging symbols). This section will focus on extensions to gcc and clang called
+*Sanitizers*[sic],
+which instrument the compiled code to catch and report various error conditions. The most useful
+sanitizers for scientific programming are as follows:
 
+- AddressSanitizer: also known as *ASan*, modifies memory management functions to print a warning or
+  crash when encountering an invalid memory request (including operations which would not normally 
+  raise a segmentation fault but are errors nonetheless). ASan has been implemented in clang and gcc
+  and is enabled through the `-fsanitize=address` compiler flag (although the `libasan` library may not
+  be installed by default on all systems). ASan has some cost in the form of higher memory consumption
+  at run-time, so should only be used when debugging.
+- UndefinedBehaviorSanitizer: also known as *UBSan*, instruments the target code to catch undefined
+  behaviour such as NULL pointer dereferencing, integer overflow and division by zero. Although most
+  features in UBSan are not strictly related to memory safety, it's still an extremely useful
+  debugging tool. UBSan is enabled through the `-fsanitize=undefined` flag, and has very little
+  overhead (so is usually fine for general use). 
+- LeakSanitizer: similar to ASan (technically a part of ASan which can be run as a standalone tool),
+  *LSan* detects memory leaks. Can be combined with ASan by compiling with the `fsanitize=address` flag
+  and setting the environment variable `ASAN_OPTIONS=detect_leaks=1` before running the target
+  executable. LSan can also be used as a standalone tool (with less overhead than the full
+  AddressSanitizer) by compiling with `-fsanitize=leak`.
+- Static analysis: static analysers are automated tools which analyse the source code of a program
+  *without running it* to find programming bugs (including some memory bugs like double-free errors). 
+  Static analysers use the same principles as regular compiler errors, but are much more thorough as 
+  they are "allowed" to run for a much longer time than a compiler (where designers typically want to
+  limit compilation times to improve usability). 
+  
+  One important tool for static analysis is the *Clang Static Analyzer*, which is developed as part of 
+  the clang compiler project and leverages clang's architecture to search for programming bugs. It's
+  usage is somewhat intricate, so it's a good idea to read [the 
+  documentation](https://clang-analyzer.llvm.org/) before trying it out.
 
+### Run-time tools
+Dynamic instrumentation has the advantage of not requiring special compilation steps, but often comes
+with a much larger performance and memory usage overhead than comparable static tools. The two most
+important run-time tools are *debuggers* and *Valgrind*.
+
+First, debuggers. Running code under a debugger like GDB is a good way to catch and inspect the state of
+the program in the lead up to bugs, especially for obvious bugs like segmentation faults which halt the
+program execution. Subtler bugs like silent memory corruption are more tricky to pin down, as it's often
+not obvious *where* the problem is located in the code - without an obvious starting point, it can take 
+a long time to move through the code execution. This makes it all the more important to brush up on 
+[basic](https://www.cs.cmu.edu/~gilpin/tutorial/) and 
+[advanced](https://interrupt.memfault.com/blog/advanced-gdb) GDB usage so you'll be prepared for the
+kinds of gnarly bugs that come with manual memory management.
+
+The other, major run-time memory analysis program it's important to know about is Valgrind. Valgrind is
+a framework for dynamic instrumentation and analysis of code (running on Linux systems), which
+virtualises the instructions making up the original program and runs them on a "synthetic CPU", where
+the instructions can be instrumented by specialised tools before they are executed. The upshot of this
+(somewhat technical) description is that Valgrind lets you observe and profile 100% of your code's
+execution path (including any libraries you may have linked to) without needing to recompile the
+executable (although if you have access to the source code you can get more detailed statistics by
+compiling with the `-g` flag). Valgrind imposes a very large performance penalty, but will automatically
+catch whole classes of memory bugs, so the tradeoff is well worth it when debugging code.
+
+Valgrind includes many tools for memory and performance analysis, but the
+most commonly-useful ones are [^1]:
+
+[^1]: Valgrind also has a thread-safety analyser called `Hellgrind`, but it does not understand OpenMP
+  constructs, so is not terribly useful for much scientific software in common use.
+
+- Memcheck: checks for invalid memory accesses (e.g. out-of-bounds or use-after-free errors) and memory
+  leaks. 
+- Callgrind: generates call-graphs (tree-like graphical representation of a program's execution flow)
+  and profiling information. Can be combined with the *kcachegrind* GUI tool for an easier-to-interpret
+  overview of call-graph data.
+- Massif: profiles heap memory usage over a program's lifetime. Can be combined with the GUI frontend
+  *massif-visualizer* for a more easy-to-read profile.
+- DHAT (Dynamic Heap Analysis Tool): analyses *how* a program uses its heap memory, including frequency
+  of allocations, under-utilised allocations and inefficient access patterns. More of a niche tool than
+  the other three in this list, but these kinds of bugs are extremely difficult to track down without
+  DHAT.
+
+Basic usage of Valgrind takes the following form:
+
+```
+valgrind --tool=<tool> ./your_program
+```
+
+where `<tool>` is the name of the tool you want to run (which must be all lower case). So to run a
+program with the DHAT tool, you'd do something like:
+
+```
+valgrind --tool=dhat ./your_program
+```
+
+Valgrind produces a *lot* of output, so it's useful to either redirect the output to a file, or to use a
+dedicated logging file through the command-line argument `--log-file=<filename>`.
+
+As with all types of debugging, there is no "silver bullet" for catching memory bugs. However, judicious
+use of these tools will help speed up the process of debugging and harden your code against memory
+corruption errors.
