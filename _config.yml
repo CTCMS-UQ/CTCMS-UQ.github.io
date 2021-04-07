@@ -32,10 +32,15 @@ github_username:  CTCMS-UQ
 # Build settings
 markdown: kramdown
 theme: minima
-plugins:
-  - jekyll-feed
 
 timezone: Australia/Brisbane
+
+# Group pages and tutorials by category
+collections:
+  linux_tutorials:
+    output: true
+  programming_tutorials:
+    output: true
 
 # Exclude from processing.
 # The following items will not be processed, by default.

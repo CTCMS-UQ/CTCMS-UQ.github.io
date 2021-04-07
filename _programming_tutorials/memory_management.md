@@ -1,7 +1,10 @@
 ---
+layout: page
 title: "Memory management in C, C++ and Fortran"
 author: "Emily Kahl"
+categories: C C++ Fortran Debugging
 ---
+
 This document is intended to provide a high-level overview of the many different ways to manage memory
 in the C, C++ and Fortran programming languages. These languages were chosen as they are the most
 commonly used languages in scientific computing, but also because they were foundational to the
@@ -611,3 +614,14 @@ Modern Fortran has some protection against memory leaks, as the compiler will
 automatically insert calls to `DEALLOCATE` into the executable code once it
 detects an array is no longer in scope. It is still sometimes necessary to
 de-allocate memory, but it is not as critical as proper use of `free` in C.
+
+## Detecting memory bugs
+What about memory bugs? What do you do if a program crashes or produces junk output due to memory 
+issues? Debugging memory bugs can be very difficult, but there are some useful Unix tools which can 
+greatly simplify the process. These tools roughly fall into two categories: compiler tools, which
+require you to recompile the code with particular flags or libraries, and runtime tools which do not
+require the code to be recompiled.
+
+### Compile time tools
+
+

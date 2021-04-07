@@ -3,7 +3,6 @@ layout: page
 title: "Introduction to the Linux command-line"
 author: "Emily Kahl"
 categories: linux command-line introductory clusters
-permalink: /intro-linux/
 ---
 ## Why you should learn Linux
 If you've never used Linux before, you might be asking "do I really need to learn this? Why can't I just

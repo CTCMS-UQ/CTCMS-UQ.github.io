@@ -1,8 +1,8 @@
 ---
+layout: page
 title: "Advanced Linux command-line usage"
 author: "Emily Kahl"
 categories: linux command-line 
-permalink: /advanced-linux/
 ---
 
 This guide is for those who have some level of familiarity with bash (or some other Mac or Linux shell),
