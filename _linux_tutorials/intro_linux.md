@@ -9,7 +9,7 @@ If you've never used Linux before, you might be asking "do I really need to lear
 use Windows or Mac?". The short answer is "yes". The long answer is "yes, and that's a good thing."
 
 Linux is overwhelmingly common on scientific servers and clusters, as well as cloud computing platforms,
-for both historical and technical reasons. While it's technically possible to run use a graphical 
+for both historical and technical reasons. While it's technically possible to use a graphical 
 interface to connect with clusters over the network, it takes a lot of network bandwidth and processing
 power, so it's not feasible for clusters with more than a few users. Instead, we must use the command
 line, which comes with the added bonus of allowing us to automate common, repetitive tasks (such as data
@@ -139,7 +139,7 @@ cluster's login node, so that any commands you type into SSH will be set across 
 on the cluster, with the results sent back across the network to be displayed on your computer. Take
 note that the SSH connection is bound to the terminal window in which you ran the SSH command (either
 `ssh` on Mac or Linux, or `ssh.exe` on Windows), so any commands you type in other terminal windows 
-(including ones you start after you launch SSH) will be executed on you computer and not on the cluster.
+(including ones you start after you launch SSH) will be executed on your computer and not on the cluster.
 
 If you're using Mac or Linux, open a terminal window and run the command `ssh 
 <username@cluster.address>` where you replace `username` with your username on the cluster (which would 
@@ -225,7 +225,7 @@ There are a couple of bash commands which are important to know when navigating
 the file system:
 
 - `pwd` (stands for "print working directory"): prints the path of the current working directory.
-- `cd *dir*` (stands for "change directory"): moves you to the specified directory. For example `cd ~/` 
+- `cd <dir>` (stands for "change directory"): moves you to the specified directory. For example `cd ~/` 
   will change the working directory (or "move" you) to your home directory.
 - `ls` (short for "list"): prints a list of files in the current directory. You can also type a
   directory path after `ls` and it will print the names of files in the target directory (instead of the
@@ -246,7 +246,7 @@ the file system:
 - `mv <src> <dest>` (short for "move"): similar to `cp` except it moves the source file, rather than 
   copying it. This means that after `mv` has completed, the original file will no longer be present -
   it will have moved completely to the new destination. Like with `cp`, `mv` will not warn you if you're
-  about to overwrite a file, unless you pass it the `-i` flag`. This command is conceptually equivalent 
+  about to overwrite a file, unless you pass it the `-i` flag. This command is conceptually equivalent 
   to cutting and pasting with *File Explorer* (Windows) or *Finder* (Mac).
 - `rm <file1> <file2> ...` (short for "remove"): delete the specified file(s) from the system. Be aware
   that there is no equivalent to the "Recycle Bin" on HPC clusters, so make doubly sure you want a file
@@ -342,7 +342,7 @@ determine when a new command or flag has started, spaces in filenames need speci
 properly. Let's say you have a file called `calculation results.txt`. If you were to type `rm
 calculation results.txt`, bash would interpret the space to mean that you're actually referring to *two*
 filess called `calculation` and `results.txt`, neither of which are the original file. Instead, you need
-to *escape* the "space" in the name by prefixing it with a backslash ("\"): `rm calculation\
+to *escape* the "space" in the name by prefixing it with a backslash ("\\"): `rm calculation\
 results.txt`. You'll need to do this for every space in a filename, as well as other *special
 characters*, like asterisks ("*"), brackets ("(" and ")") and ampersands ("&") (a complete list of all
 special characters in bash can be found here: <http://mywiki.wooledge.org/BashGuide/SpecialCharacters>).
@@ -362,10 +362,10 @@ so it's important to make sure that you're using them as intended to get the mos
 
 As with everything in this guide, different clusters will have different guidelines for file-system
 access, so it's a good idea to at least skim the manual pages. For RCC, the relevant page is
-[](http://www2.rcc.uq.edu.au/hpc/guides/index.html?secure/Storage_userguide.html) (must log in with your
+<http://www2.rcc.uq.edu.au/hpc/guides/index.html?secure/Storage_userguide.html> (must log in with your
 UQ credentials to access it), for NCI it is
-[](https://opus.nci.org.au/display/Help/3.+Storage+and+Data+Management), while for Pawsey it is
-[](https://support.pawsey.org.au/documentation/display/US/File+Systems%2C+File+Transfers+and+File+Management)
+<https://opus.nci.org.au/display/Help/3.+Storage+and+Data+Management>, while for Pawsey it is
+<https://support.pawsey.org.au/documentation/display/US/File+Systems%2C+File+Transfers+and+File+Management>
 (which even comes with a nice video tutorial!). All systems use the same general principles, however.
 
 Generally speaking, it's best not to run calculations inside your home directory: if your calculation
@@ -704,7 +704,7 @@ Finally, here are some useful commands, tips and tricks that didn't quite fit el
   so there is always a danger of accidentally deleting important files. Consequently, if you're using
   wildcards for a destructive operation (like `rm`-ing files), it's a good idea to test which files the
   wildcard matches with `ls` and check that it's what you expected (i.e. before you do `rm *.out*`, run
-  `ls *.o*` and check that you haven't caught anything you don't want to delete). 
+  `ls *.out*` and check that you haven't caught anything you don't want to delete). 
 
 - `find`: as its name might suggest, `find` finds files in the filesystem (try saying that five times
   fast). The syntax of `find` is somewhat intricate, but the basic usage requires you to specify a
@@ -807,7 +807,7 @@ Finally, here are some useful commands, tips and tricks that didn't quite fit el
   with the `-n` option, you could add `alias grepn="grep -n"` to your `~/.bashrc`, so whenever you run
   `grepn` the shell will automatically execute `grep -n` instead. Aliases must be stored in `~/.bashrc`
   if you want to keep them active for all bash sessions; it's possible to interactively define aliases
-  as your using bash, but they will disappear when you exit the shell and won't be available in other
+  while using bash, but they will disappear when you exit the shell and won't be available in other
   terminal windows if you don't save them.
 
   Finally, once you've made changes to your `.bashrc`, you'll need to either reload bash (by starting a
