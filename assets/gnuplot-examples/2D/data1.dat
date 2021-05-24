@@ -1,0 +1,6 @@
+  # Lines starting with a "#" are comments and will be ignored by gnuplot      
+  # x   y                                                                      
+    1   2                                                                      
+    2   4                                                                      
+    3   6                                                                      
+    4   8

@@ -26,4 +26,15 @@ layout: default
     {% endfor %}
   </ul>
 
+  <h1>Data analysis tutorials</h1>
+  <ul>
+    {% for tutorial in site.data_tutorials %}
+      <li>
+        <h2><a href="{{ tutorial.url }}">{{ tutorial.title }}</a></h2>
+        <!--<p>{{ tutorial.author }}</p> -->
+      </li>
+    {% endfor %}
+  </ul>
+
+
 </div>

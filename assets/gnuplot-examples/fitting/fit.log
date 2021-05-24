@@ -1,0 +1,149 @@
+
+
+*******************************************************************************
+Mon May 24 10:16:24 2021
+
+
+FIT:    data read from "data.dat" using 1:2
+        format = x:z
+        x range restricted to [-0.0561798 : 3.06882]
+        #datapoints = 10
+        residuals are weighted equally (unit weight)
+
+function used for fitting: f(x)
+	f(x) = a*x + b
+fitted parameters initialized with current variable values
+
+iter      chisq       delta/lim  lambda   a             b            
+   0 4.0253222543e+01   0.00e+00  1.26e+00    1.000000e+00   1.000000e+00
+   4 3.8718259096e+00  -4.95e-08  1.26e-04    2.841677e+00  -2.518248e+00
+
+After 4 iterations the fit converged.
+final sum of squares of residuals : 3.87183
+rel. change during last iteration : -4.9515e-13
+
+degrees of freedom    (FIT_NDF)                        : 8
+rms of residuals      (FIT_STDFIT) = sqrt(WSSR/ndf)    : 0.695685
+variance of residuals (reduced chisquare) = WSSR/ndf   : 0.483978
+
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+a               = 2.84168          +/- 0.2757       (9.703%)
+b               = -2.51825         +/- 0.4089       (16.24%)
+
+correlation matrix of the fit parameters:
+                a      b      
+a               1.000 
+b              -0.843  1.000 
+
+
+*******************************************************************************
+Mon May 24 11:03:50 2021
+
+
+FIT:    data read from "sin.dat"
+        format = z
+        #datapoints = 15
+        residuals are weighted equally (unit weight)
+
+function used for fitting: f(x)
+	f(x) = sin(a*x + b)
+fitted parameters initialized with current variable values
+
+iter      chisq       delta/lim  lambda   a             b            
+   0 1.7514340579e+01   0.00e+00  1.03e+00    1.000000e+00   1.000000e+00
+   6 1.4029410350e+00  -1.61e-01  1.03e-06    1.973293e+00   3.224968e-01
+
+After 6 iterations the fit converged.
+final sum of squares of residuals : 1.40294
+rel. change during last iteration : -1.61439e-06
+
+degrees of freedom    (FIT_NDF)                        : 13
+rms of residuals      (FIT_STDFIT) = sqrt(WSSR/ndf)    : 0.32851
+variance of residuals (reduced chisquare) = WSSR/ndf   : 0.107919
+
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+a               = 1.97329          +/- 0.05772      (2.925%)
+b               = 0.322497         +/- 0.1175       (36.44%)
+
+correlation matrix of the fit parameters:
+                a      b      
+a               1.000 
+b              -0.059  1.000 
+
+
+*******************************************************************************
+Mon May 24 11:05:28 2021
+
+
+FIT:    data read from "sin.dat"
+        format = z
+        #datapoints = 15
+        residuals are weighted equally (unit weight)
+
+function used for fitting: f(x)
+	f(x) = amp*sin(a*x + b)
+fitted parameters initialized with current variable values
+
+iter      chisq       delta/lim  lambda   amp           a             b            
+   0 1.4029410350e+00   0.00e+00  1.73e+00    1.000000e+00   1.973293e+00   3.224968e-01
+   3 1.3963747332e+00  -1.93e-03  1.73e-03    1.030402e+00   1.974436e+00   3.213305e-01
+
+After 3 iterations the fit converged.
+final sum of squares of residuals : 1.39637
+rel. change during last iteration : -1.93044e-08
+
+degrees of freedom    (FIT_NDF)                        : 12
+rms of residuals      (FIT_STDFIT) = sqrt(WSSR/ndf)    : 0.341123
+variance of residuals (reduced chisquare) = WSSR/ndf   : 0.116365
+
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+amp             = 1.0304           +/- 0.128        (12.43%)
+a               = 1.97444          +/- 0.05834      (2.955%)
+b               = 0.32133          +/- 0.1185       (36.88%)
+
+correlation matrix of the fit parameters:
+                amp    a      b      
+amp             1.000 
+a               0.085  1.000 
+b              -0.039 -0.061  1.000 
+
+
+*******************************************************************************
+Mon May 24 11:06:30 2021
+
+
+FIT:    data read from "sin.dat"
+        format = z
+        #datapoints = 15
+        residuals are weighted equally (unit weight)
+
+function used for fitting: f(x)
+	f(x) = amp*sin(freq*x + phase)
+fitted parameters initialized with current variable values
+
+iter      chisq       delta/lim  lambda   amp           freq          phase        
+   0 1.8014796290e+01   0.00e+00  9.66e-01    1.030402e+00   1.000000e+00   1.000000e+00
+   9 1.3963747219e+00  -3.57e-02  9.66e-08    1.030403e+00   1.974441e+00   3.213342e-01
+
+After 9 iterations the fit converged.
+final sum of squares of residuals : 1.39637
+rel. change during last iteration : -3.56728e-07
+
+degrees of freedom    (FIT_NDF)                        : 12
+rms of residuals      (FIT_STDFIT) = sqrt(WSSR/ndf)    : 0.341123
+variance of residuals (reduced chisquare) = WSSR/ndf   : 0.116365
+
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+amp             = 1.0304           +/- 0.128        (12.43%)
+freq            = 1.97444          +/- 0.05834      (2.955%)
+phase           = 0.321334         +/- 0.1185       (36.88%)
+
+correlation matrix of the fit parameters:
+                amp    freq   phase  
+amp             1.000 
+freq            0.085  1.000 
+phase          -0.039 -0.061  1.000 
