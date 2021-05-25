@@ -494,7 +494,7 @@ which gives the following figure:
 
 ![Purple sin curve](../assets/gnuplot-examples/2D/purple_sin.svg)
 
-## Configuration files
+## Customising gnuplot
 
 Gnuplot lets us store and read customisations from a file to re-use across plots. This is a good way to 
 ensure
@@ -524,6 +524,10 @@ data:
 
 - Consider using line or fill patterns (e.g. dashed vs solid lines) to differentiate data sets, as
 this does not rely on color vision at all.
+    * Most output file types in gnuplot have an option to output to greyscale, which is more
+      accessible to people with color-vision deficiency (almost by definition). For PNG and PDF output
+      via the Cairo rendering library (a common option on Linux and Mac), this is enabled via the "mono"
+      option when setting the terminal, e.g. `set terminal pdfcairo mono`.
 - Use a colorblind-friendly palette for your graphs by default. [This blog post](https://thenode.biologists.com/data-visualization-with-flying-colors/research/)
 has a great roundup of colorblind-friendly palettes. As we'll see below, gnuplot even has some
 built in and ready to go.
