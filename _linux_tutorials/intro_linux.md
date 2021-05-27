@@ -4,7 +4,7 @@ title: "Introduction to the Linux command-line"
 author: "Emily Kahl"
 categories: linux command-line introductory clusters
 ---
-## Why you should learn Linux
+# Introduction - Why you should learn Linux
 If you've never used Linux before, you might be asking "do I really need to learn this? Why can't I just
 use Windows or Mac?". The short answer is "yes". The long answer is "yes, and that's a good thing."
 
@@ -31,7 +31,14 @@ picked up as you go. Consequently, this guide is not intended to be complete or 
 more of a crash-course, covering just enough to get you up and running and producing results. I have
 provided a list of further resources for more advanced topics not covered in this guide.
 
-## Terminology
+# Table of Contents
+{:.no_toc}
+
+* TOC
+{:toc}
+
+
+# Terminology
 Below are some useful definitions and terminology which will appear throughout this guide:
 
 - *Shell*: a program that lets us give commands to a computer and receive output. It is also 
@@ -67,7 +74,7 @@ command. Dummy arguments are denoted by being enclosed in angle brackets ("<" an
 doesn't mean you should literally type "get \<file\>", but rather that you would substitute the name of
 the target file, to get something like `get output.txt`.
 
-## Setup and required software
+# Setup and required software
 If you already use Mac or Linux (e.g. Ubuntu), then you're all set: everything you need to follow this
 tutorial should already be installed on your computer. If something you need isn't installed, it will be
 available on the App store (for Mac) or your Linux distribution's package manager (e.g the Software
@@ -94,7 +101,7 @@ own SSH program by default. It can be accessed by running `ssh.exe` in any of th
 above, or in the Windows command line. More detailed instructions for using SSH can be found in the
 *Logging in* section of this guide. 
 
-## Where to get help
+# Where to get help
 If you get stuck, there are several places you can check for help. Unfortunately there is not much
 standardisation of documentation between programs, but there are a few "safe bets" to check first.
 
@@ -125,7 +132,7 @@ Awoonga), [NCI](https://opus.nci.org.au/display/Help/Gadi+User+Guide) (for Gadi)
 software), and information specific to using those clusters (e.g. running and checking the status of
 computational jobs).
 
-## Logging in
+# Logging in
 Before you can use the clusters, you'll need to apply for an account with the organisation that manages
 them - your supervisor will be able to tell you which ones you'll be using and will need to approve your
 application. The relevant signup forms are:
@@ -172,7 +179,7 @@ logout. Most of the time, the SSH connection will automatically close if you lea
 long (where "too long" could be anywhere from an hour to a day), but that can be messy so it's always
 best to explicitly log out when you're finished.
 
-## Getting around - navigating the file system
+# Getting around - navigating the file system
 It's important to understand how to navigate and use the *file system* on the cluster. Broadly speaking,
 data on the computer is stored in files, which are grouped together into a hierarchy of *directories*
 (also called *folders*). This holds true on Windows, Mac and Linux. You may be used to navigating the
@@ -355,7 +362,7 @@ either `calculation-results.txt` or `calculation_results.txt`. Either option is 
 pick one and stick with it, since using a consistent naming scheme makes it easier to remember and
 search through files.
 
-### Where to store your files on the cluster
+## Where to store your files on the cluster
 So now that you know how to navigate the file-system, you may be wondering "where and how should I store
 all my files?". Like we saw before, HPC clusters tend to have very specifically structured file-systems,
 so it's important to make sure that you're using them as intended to get the most out of the system. 
@@ -386,7 +393,7 @@ Remember that scratch space is usually not backed-up and is regularly cleared ou
 systems, so it's crucial that you move any important results or data to your home directory for safe 
 keeping. 
 
-## Reading and editing text
+# Reading and editing text
 Reading and editing documents via the Linux command line is not too dissimilar to doing so via a
 graphical interface. The biggest difference is that almost everything you'll use to run calculations and
 analyse the output will be plain text documents (which universally have the `.txt` filename suffix), so
@@ -455,7 +462,7 @@ the development process much easier. Microsoft [Visual Studio Code](https://code
 the full [Visual Studio](https://visualstudio.microsoft.com/) on Windows) is a free IDE for Windows, Mac
 and Linux which will be sufficient for most code development you're likely to do.
 
-## Output redirection and pipes
+# Output redirection and pipes
 There are two very important, Unix-specific ways of manipulating text that has no clear analogue in
 graphical applications: *output rediction* and *pipes*. These concepts are key to using the command line
 effectively, and are best explained with specific examples. 
@@ -525,7 +532,7 @@ $ ./prog | grep "CH4" | head -n 15 > output.txt
 Pipes are one of the most important concepts covered in this document, and using them effectively is
 key to getting the most out of the Linux command-line.
 
-## Automate common tasks - command-line scripting
+# Automate common tasks - command-line scripting
 In addition to typing in commands and receiving the responses one at a time (so-called *interactive
 use*), bash supports the ability to write short programs called *shell scripts* which contain a sequence
 of commands to be executed automatically. Since this provides the ability to group a number of commands
@@ -574,7 +581,7 @@ commands used to generate a file you just need to look at the contents of the sc
 Shell scripting is also important because it is the way we submit and run computational jobs on HPC
 clusters.
 
-## HPC clusters - the basics of submitting jobs
+# HPC clusters - the basics of submitting jobs
 HPC clusters can have hundreds or thousands of users sharing the same set of resources, so they use
 software called a *job scheduler* to ensure everyone gets has fair access to the cluster. In order to
 run simulations on the cluster, you need to create a *job script*, which is a program (written in the
@@ -617,7 +624,7 @@ on the login node will slow down or even crash other users' sessions. This is a 
 cranky email from the system administrators, and may even result in your account being suspended. Don't
 run on the login node; use the scheduler.
 
-## Software module system
+# Software module system
 Users of an HPC system often require specific versions of software for their workflows, while some
 software packages clash and cannot be used at the same time (for example, a particular program might
 compile with version *X* of a compiler, but not version *X+1*).
@@ -645,7 +652,7 @@ Sometimes it's not obvious what a module actually *does* or what software it pro
 `module show <module_name>` displays information about a given module, including programs and libraries
 it provides.
 
-## Transferring files to and from remote servers
+# Transferring files to and from remote servers
 At some point, you'll want to transfer files between the cluster and your computer. The easiest way to
 do this is through an *SFTP* (*Secure File Transfer Protocol*) program running on your computer (not on
 the cluster), which starts a connection between your computer and the cluster and allows you to
@@ -679,7 +686,7 @@ directory (on either the cluster or your computer, depending on whether you are 
 or you can specify the full path to the file. `sftp` also supports tab-completion for both commands and
 file names/paths. 
 
-## Some useful commands
+# Some useful commands
 Finally, here are some useful commands, tips and tricks that didn't quite fit elsewhere in this guide:
 
 - Wildcards: Wildcards are a useful shell construct which allows you to access or manipulate multiple
@@ -821,7 +828,7 @@ Finally, here are some useful commands, tips and tricks that didn't quite fit el
   to get files by doing `sftp $tinaroo`. It's a good idea to do this for all clusters you have access
   to, with each cluster getting its own variable on its own line in the `.bashrc` file.
 
-## Finding executables in non-standard directories
+# Finding executables in non-standard directories
 In order to execute programs, bash needs to know the directory in which their executable file is stored.
 One way to do this by supplying the path (full or relative) when executing the command, such as
 `~/Code/lammps/bin/lmp args`, but what if you don't want to type out the full path every time you run
@@ -849,7 +856,7 @@ export PATH=/home/user/Code/lammps/bin/lmp:$PATH
 
 This can be repeated as many times as needed for as many programs as you like.
 
-## Test your knowledge
+# Test your knowledge
 One of the greatest demonstrations of the power of the UNIX shell came in the form of [dueling magazine 
 columns between two prominent computer scientists in the 
 1980s](https://leancrew.com/all-this/2011/12/more-shell-less-egg/). A problem was posed to Don Knuth (a
@@ -880,7 +887,7 @@ Playing with this pipeline is a great way to internalise the essential logic of 
 follows is a small set of guided problems based on the above pipeline that will help you cement your
 understanding of the Linux command line.
 
-### Generating the input text
+## Generating the input text
 Before we can use our pipeline, we need to generate a set of input text to test it on. Let's use the
 manual/information page for bash. First, try running `info bash` in the command line. 
 
@@ -896,7 +903,7 @@ also need to tell it to print every "bash" info page at once, rather than paging
 is achieved by passing the `-a` and `-o -` options to info. Try running `info bash -a -o -` on your 
 command line and observe the difference.
 
-### Transliterating 
+## Transliterating 
 The next command in our pipeline is `tr`, which stands for "translate" or "transliterate". It's used to
 essentially swap certain characters, or sets of characters, with another set of characters, such as when
 translating some file to all upper- or lower-case. In this case, we want to use `tr` twice.
@@ -910,7 +917,7 @@ The second invocation of `tr` replaces all upper-case characters (`A-Z`) with th
 equivalents (`a-z`), to ensure that words are not double-counted due to capitalisation (e.g.
 "Interpreted" and "interpreted" should be counted as a single word).
 
-### Putting it all in a script
+## Putting it all in a script
 Now we're ready to put our pipeline into a shell script to make it easier to use.
 
 **Q)** Use the information in the "Automate common tasks" section to make an executable shell script to
@@ -932,7 +939,7 @@ will print the first 10 lines of the sorted list.
 
 **Q)** What are the 12 most frequently used words in the bash information page?
 
-### Find the frequency of a specific word
+## Find the frequency of a specific word
 Finally, it might be useful to be able to specify a particular word and find its frequency in the info
 pages. We can do this using `grep`, with the `-o` flag to print just the matching word (as opposed to
 the whole line, which is the default behaviour). It may also be useful to invoke `grep` with the `-i`
@@ -947,7 +954,7 @@ substitution into the original pipeline?
 will match both "shell" and "subshell". This is not the case for the `tr`-pipeline, which *does* only
 count whole words. We can fix this by passing `-w` to `grep`, which tells it to only match whole words.
 
-## Resources and further reading
+# Resources and further reading
 Once you're up and running on the clusters, you may want to check out the *Software Carpentry* workshops
 on the Unix shell: there's a tutorial on [the basics](https://swcarpentry.github.io/shell-novice/) and 
 a follow-up [advanced course](https://carpentries-incubator.github.io/shell-extras/) (which is currently

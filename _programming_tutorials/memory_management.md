@@ -15,7 +15,14 @@ performance, so it's worth taking some time to familiarise yourself with how com
 memory. The specifics of this guide focus on Linux, since that's the most commonly used OS for computing
 clusters.
 
-## Overview --- processes and memory
+# Table of Contents
+{:.no_toc}
+
+* TOC
+{:toc}
+
+
+# Overview --- processes and memory
 A *process* is an abstraction provided by the operating system (or *OS* e.g. 
 Windows, MacOS, Linux) which contains some instructions to execute (usually 
 obtained from an *executable file* stored somewhere on the machine), plus its 
@@ -35,7 +42,7 @@ execution. Many programming languages such as Python and Matlab manage this
 process automatically, but C, C++ and Fortran all require some degree of manual
 memory management on the part of the programmer.
 
-## How do computers store memory? The stack and the heap
+# How do computers store memory? The stack and the heap
 A process's memory may be stored anywhere in the computer's physical RAM, but
 it is logically represented to the programmer as being arranged into a
 contiguous range of *virtual addresses*: the mapping between *physical* and
@@ -71,7 +78,7 @@ There are important syntactical and semantic differences in how variables are
 declared and allocated between languages, so let's go through the languages one
 by one.
 
-## C
+# C
 C is the most involved and "low-level" language commonly used for scientific
 programming, in that it requires programmers to do manual memory management,
 and has no tools to make that easier. The tradeoff is that C provides much
@@ -83,7 +90,7 @@ shoot yourself in the foot) and the kinds of memory bugs you get in C tend to
 be difficult to debug. But, there's a lot of pre-existing code written in C, so
 if you need to use or maintain a C program, read on.
 
-### Preliminary knowledge
+## Preliminary knowledge
 Before starting, we need to cover one very important concept in programming: *scope*. Every identifier
 (i.e. names of variables, classes, etc) are only able to be accessed within certain blocks of code;
 outside these regions the identifier is said to be *out of scope*. Scope is usually defined with respect
@@ -105,7 +112,7 @@ scope.
 
 Scoping rules are intimately tied to the concept of an execution stack, and thus to stack-based memory.
 
-### Stack memory
+## Stack memory
 
 In C, most "singleton" variable are stored on the stack. If you declare a
 variable like:
@@ -164,7 +171,7 @@ As a rule of thumb, if you're likely to need more than 100 elements,
 it's better to manually allocate the memory. Many modern codebases forbid them
 entirely because of these potential issues, so check before you use them.
 
-### Heap memory
+## Heap memory
 The main way to manually allocate memory in the heap is via the `malloc(size_t
 size)` function. Do not attempt to access memory before you allocate it, as
 this will cause segmentation faults (crashes) and other undefined behaviour.
@@ -264,7 +271,7 @@ But as the saying goes, an ounce of prevention is worth a pound of cure. Avoid
 using manual memory management as much as possible, and, if you can, avoid
 using C unless you absolutely need to.
 
-## C++
+# C++
 Many sources claim that C++ is just C with classes (which was in fact its
 original name), but this is an outdated way of thinking about the language. The
 *C++11* standard introduced sweeping changes to the structure of the language,
@@ -279,7 +286,7 @@ them. If you're writing your own code, then I strongly recommend using the
 modern approach as it significantly reduces the chance of introducing memory
 bugs with almost no performance cost.
 
-### Stack-allocated memory
+## Stack-allocated memory
 
 C++ arrays are stored on the stack and are almost identical to arrays in C. The
 big difference is that variable-length arrays are not permitted in C++, so
@@ -312,7 +319,7 @@ std::array<some_complex_type, 20> arr2; // Array of 20 elements of a custom type
 `std::array` is generally easier to use than raw C-style arrays, but otherwise
 has the same semantics and memory characteristics.
 
-### Manual heap-allocated memory
+## Manual heap-allocated memory
 While C++ includes C-style `malloc` and `free`, their use is generally
 discouraged in favour of the C++ specific operators `new` and `delete`. 
 
@@ -373,7 +380,7 @@ As with C, every `new` must have an accompanying `delete` later in the code.
 The easiest way to achieve this is to write the `new` and `delete` calls at the
 same time to ensure you don't forget about them.
 
-### Modern C++ memory management: RAII
+## Modern C++ memory management: RAII
 RAII (short for *Resource Acquisition is Initialisation*) is a powerful idiom
 which underlies modern C++ memory management. In RAII, allocation and
 de-allocation are handled by the compiler automatically and are tied to the
@@ -412,7 +419,7 @@ dependent on the compiler making sensible decisions about when to
 allocate/de-allocate memory, but major C++ compilers are very smart these days
 so it almost always Just Works without needing manual intervention.
 
-### Standard (and not-so-standard) containers
+## Standard (and not-so-standard) containers
 C++ comes with a rich standard library, including implementations of several
 commonly-used data structures. These implementations are referred to as
 *containers*, and can be used to store any data type, including custom classes
@@ -446,7 +453,7 @@ Proper choice of data structure is extremely important for ensuring program
 performance, and strongly depends on the characteristics of the program. If
 you're unsure, feel free to ask me (Emily) and I'll be happy to help.
 
-### Smart pointers
+## Smart pointers
 Smart pointers (properly introduced in C++11) allow for any type of data or
 class to be managed using RAII. They act like regular pointers, but keep track
 of the object's lifetime and automatically de-allocate it once it falls out of
@@ -480,7 +487,7 @@ reduce the chance of memory allocation bugs. They should be used whenever
 possible, except in instances where strict compatibility with old C++ standards
 is needed.
 
-## Fortran
+# Fortran
 Fortran is a lot older than C, and so has its origins in a time before
 computer engineers settled on a common "standard" for memory layout. As such,
 the exact details of a Fortran program's memory model depend on both the choice
@@ -489,7 +496,7 @@ few common features and guidelines which are worth knowing about regardless of
 compiler, but it's worth clearing up some terminology relating to Fortran
 standards first.
 
-### Fortran standards - fixed-form vs free-form
+## Fortran standards - fixed-form vs free-form
 Fortran source code was originally designed to fed to a computer via punched 
 cards, which had a fixed number of columns per line (80 column limitations 
 were very common). Space on the punched-cards was tight, so it made sense to 
@@ -515,7 +522,7 @@ The upshot of this is that fixed-form codebases are not restricted to Fortran
 77 features --- it is possible to use modern Fortran features, including memory
 management, without needing to convert fixed-form files to free form.
 
-### Static arrays
+## Static arrays
 Fortran makes a distinction between static and dynamic arrays, with static
 arrays being any type of array whose size is known at compile time. This was
 the only type of array provided by Fortran 77 and earlier (although many
@@ -567,7 +574,7 @@ techniques from newer Fortran standards while still maintaining fixed-form
 style source code, meaning that the required changes to program structure are
 relatively small.
 
-### Dynamic allocation --- the ALLOCATABLE attribute
+## Dynamic allocation --- the ALLOCATABLE attribute
 Fortran 90 introduced the concept of *allocatable* arrays, which are
 dynamically allocated arrays stored on the heap. Allocatable arrays must be
 declared with the `ALLOCATABLE` attribute, and are declared with special
@@ -615,14 +622,14 @@ automatically insert calls to `DEALLOCATE` into the executable code once it
 detects an array is no longer in scope. It is still sometimes necessary to
 de-allocate memory, but it is not as critical as proper use of `free` in C.
 
-## Detecting memory bugs
+# Detecting memory bugs
 What about memory bugs? What do you do if a program crashes or produces junk output due to memory 
 issues? Debugging memory bugs can be very difficult, but there are some useful Unix tools which can 
 greatly simplify the process. These tools roughly fall into two categories: compiler tools, which
 require you to recompile the code with particular flags or libraries, and runtime tools which do not
 require the code to be recompiled.
 
-### Compile-time instrumentation tools
+## Compile-time instrumentation tools
 All of the tools in this section require the code to be recompiled, which may not always be possible if
 using pre-built binaries (particularly for proprietary software). They tend to give better performance
 and more specific diagnostics than run-time tools, however, as they can leverage information from the
@@ -659,7 +666,7 @@ sanitizers for scientific programming are as follows:
   usage is somewhat intricate, so it's a good idea to read [the 
   documentation](https://clang-analyzer.llvm.org/) before trying it out.
 
-### Run-time tools
+## Run-time tools
 Dynamic instrumentation has the advantage of not requiring special compilation steps, but often comes
 with a much larger performance and memory usage overhead than comparable static tools. The two most
 important run-time tools are *debuggers* and *Valgrind*.

@@ -36,7 +36,13 @@ gnuplot, as well as some case-studies using real data to demonstrate how you mig
 the real world. Finally, there's a list of resources on data visualisation and analysis at the end,
 which are worth reading if you want to learn the fundamentals of data science and statistics.
 
-## Installing gnuplot
+## Table of Contents
+{:.no_toc}
+
+* TOC
+{:toc}
+
+# Installing gnuplot
 Installation instructions depend on which operating system you're using:
   * Windows: pre-compiled binaries are available on the [gnuplot Sourceforge 
   repository](https://sourceforge.net/projects/gnuplot/files/gnuplot/) (go to the folder for the latest 
@@ -57,7 +63,7 @@ to run graphical applications like gnuplot on the cluster. Beware that not all c
 option and it will be extremely laggy as the graphics need to be sent over the internet to your
 computer, so use this option sparingly.
 
-## Getting help
+# Getting help
 I have tried to include most of what you'll need for basic gnuplot use in this tutorial, but some
 commands will depend on which platform you're using or might have too many configuration options to
 list without breaking the flow of the document. In these cases there are two main places to get help 

@@ -11,7 +11,15 @@ line for a while and want to know more. In either case, welcome. This guide will
 structured than the introductory one, as it will serve as a grab-bag of useful tips and tricks to make
 you more efficient when using the shell.
 
-## Return values and exit statuses
+# Table of Contents
+{:.no_toc}
+
+* TOC
+{:toc}
+
+
+
+# Return values and exit statuses
 If you've ever written a C program, you may have noticed that you need to end the main function with a
 `return()` or `exit()` statement, which should return an integer value. In the context of 
 shell-scripting, the return value of a program's main function is called its *exit status*, which can be
@@ -28,7 +36,7 @@ beforehand. If you're writing a C program, it's a good idea to use the preproces
 `EXIT_SUCCESS` and `EXIT_FAILURE` (defined in `stdlib.h`) when exiting the program, since the compiler
 should set them to a sensible value for your target platform.
 
-## Loops
+# Loops
 Bash allows you to loop over sequences, which could be elements of an array, ranges of numbers or
 sub-units of a string. The general syntax is:
 ```
@@ -57,7 +65,7 @@ Also note that integer ranges in bash can start and stop at any value and can ha
 via the syntax `{start..end..increment}`, so to loop from 0 to 10 in increments of 5 you would write
 `{0..10..5}`.
 
-## Conditionals
+# Conditionals
 Conditionals (if-then-else statements) in bash are implemented with the somewhat unusual syntax:
 ```
 if <COND1>
@@ -117,7 +125,7 @@ comparisons, which is different to the usual way to access variables. You techni
 but the conditional will still work as expected without it, and using a "$" in the conditional will 
 break if the variable is uninitialised or non-existent.
 
-## Arrays
+# Arrays
 Bash has arrays, which have the syntax `things=(thing1 thing2 thing3)` and can be looped through by
 doing 
 
@@ -132,7 +140,7 @@ in their names, which is safer than looping over plain text (which is split on w
 loop). Unfortunately, it is not possible to return arrays from a function or program, so they're only
 really useful for local variables.
 
-## Advanced use of find
+# Advanced use of find
 The `find` utility is very useful for searching through the file system, but it has many more uses than those outlined in our [introductory tutorial](/intro-linux/). For starters, `find` has multiple types of
 tests you can use to further refine the search:
 
@@ -198,7 +206,7 @@ This last action `-print0` is particularly useful when combined in a pipeline wi
 which combines the powerful search capabilities of `find` with the ability to perform essentially 
 arbitrarily complex manipulations and shell commands.
 
-## xargs
+# xargs
 `xargs` is a somewhat lesser known Unix command that is nonethless one of the most useful programs in a
 shell programmer's toolkit. To quote from the man page: *xargs reads items from the standard input, 
 delimited by blanks (which can be protected with double or single quotes or a backslash) or newlines,
@@ -245,7 +253,7 @@ explicit for-loop), `find` + `xargs` is the safest way of implementing this patt
 using `xargs` to explicit loops over files unless you encounter a problem which absolutely cannot be
 solved with `xargs`.
 
-### GNU parallel
+## GNU parallel
 A similar tool to `xargs` is GNU `parallel`, which also executes commands with arguments read from
 standard input, but attempts to execute commands using multiple cores (i.e. in parallel) whenever 
 possible. GNU `parallel` is extremely powerful and allows you to very easily utilise modern multicore
@@ -253,7 +261,7 @@ processors in simple shell-scripts, but it's also full of subtle pitfalls. If yo
 be a good fit for your workload (e.g. running many instances of single-core, compute intensive jobs), I
 would highly recommend reading the man page (`man parallel`) in full before venturing forth.
 
-## Running commands in the background
+# Running commands in the background
 
 Linux has the ability to keep commands running in the background, only returning control to them when
 they're finished or when specifically requested. This is particularly useful in a remote SSH session, as
@@ -272,7 +280,7 @@ This is not always useful, as a text editor won't actually *do* anything until y
 to the foreground with `fg`, but it can be handy if you want to "pause" an editing session to run some 
 other command before returning to the session where you left off.
 
-## Processes and signals
+# Processes and signals
 
 Separate to bash's idea of *jobspec*, the Linux kernel assigns each running process with a *process ID*
 (PID), which can be used to refer to and modify that process while its running. Each PID is guaranteed
@@ -323,7 +331,7 @@ which has its value set to the output of the command in brackets).
     FAQ](https://www.open-mpi.org/faq/?category=debugging#serial-debuggers) has a good walkthrough
     explaining how to use GDB to debug MPI programs.
 
-## Hard links and symbolic links
+# Hard links and symbolic links
 Unix filesystems allow files to be referenced by multiple filenames and paths without duplicating the
 underlying contents; this is called a *link* and is analogous to shortcuts in Windows File Explorer or
 aliases in Mac's Finder. Linux has two kinds of links, called *hard links* and *symbolic links* (often
@@ -364,7 +372,7 @@ such as making a symbolic link to an executable: you don't want to have to make 
 you do a clean build (i.e. deleting and recompiling the binary), so you can make a symlink, which will
 dangle and then become valid when the file exists again.
 
-## Programming in bash
+# Programming in bash
 In addition to its interactive use, bash is also a fully-capable programming language (albeit one with
 plenty of quirks and idiosyncrasies). But even though you *can* write complex programs in bash, it's
 worth stopping to consider whether you *should*. 
@@ -412,7 +420,7 @@ extremely flexible and safer than bash.
 For the times when you *do* need to use bash, here are some important concepts and guidelines to keep in
 mind.
 
-### Common footguns to avoid
+## Common footguns to avoid
 There are many lists of bash [gotchas](https://tldp.org/LDP/abs/html/gotchas.html),
 [anti-patterns](https://brbsix.github.io/2015/11/29/bash-scripting-dos-and-donts/) and
 [pitfalls](https://mywiki.wooledge.org/BashPitfalls) on the internet. What follows are some of the more
@@ -501,7 +509,7 @@ risky ones to look out for:
   (e.g. `cp -- "$var1" "$var2"), otherwise any files which start with a hyphen will be interpreted as
   flags, leading to unexpected behaviour.
 
-### Command line arguments
+## Command line arguments
 Shell scripts can take command line arguments, which function the same as for any other program. Command
 line arguments are accessed through numbered variables `${1}`, `${2}`, etc (`${0}` contains the name of
 the script), which can be used like any other variable in bash. For example, if we had a script called
@@ -523,7 +531,7 @@ Broadly speaking though, if you find yourself needing to do complex argument par
 better off using Python instead - it will be easier, more reliable and give you less heartburn
 than hacking something together in bash.
 
-### Functions
+## Functions
 You can define functions in bash, which work more or less the same as in other languages. Functions take
 arguments with the same syntax as regular bash scripts (i.e. ${1}, ${2}, etc) and are defined with the
 syntax:
