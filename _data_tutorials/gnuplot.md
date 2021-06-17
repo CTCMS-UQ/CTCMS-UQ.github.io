@@ -109,7 +109,7 @@ Gnuplot has built-in support for a *lot* of functions, so check the help menus `
 
 ## Plotting data from a file
 Gnuplot also has the ability plot data which you supply to it in a file. Files must be plain-text 
-(although some binary formats such as Fortrana output are supported), and must be formatted into regular
+(although some binary formats such as Fortran output are supported), and must be formatted into regular
 columns. For example, a (short) data file might look like:
 
 ```
@@ -396,7 +396,7 @@ Running the above script will produce output which looks something like the foll
 
 ![Plot of kinetic and potential energy](../assets/gnuplot-examples/2D/MD_energy.svg)
 
-This is all weel and good, but it doesn't capture all the information we might want about the system: it
+This is all well and good, but it doesn't capture all the information we might want about the system: it
 would also be useful to include the total energy of the system on the same plot. Even though the data 
 file doesn't contain a column for the total energy at each time step, we know that the total energy is
 defined by `E_total = kinetic + potential` so we can get what we need by plotting the sum of columns 3 
@@ -435,9 +435,9 @@ set title "Kinetic vs potential energy for LJ fluid under shear"
 set key top center
 
 # Standard plot                                                                
-plot "MD_energy.dat" using 1:3 with lines title "Kinetic energy" dashtype 2, \ 
-"MD_energy.dat" using 1:4 with lines title "Potential energy" dashtype 2, \    
-"MD_energy.dat" using 1:($3 + $4) with lines title "Total energy", \           
+plot "MD_energy.dat" using 1:3 with lines title "Kinetic energy" dashtype 2, \
+"MD_energy.dat" using 1:4 with lines title "Potential energy" dashtype 2, \
+"MD_energy.dat" using 1:($3 + $4) with lines title "Total energy", \
 "MD_energy.dat" using 1:3 with lines title "" smooth bezier linecolor "#595959" , \
 "MD_energy.dat" using 1:4 with lines title "" smooth bezier linecolor "#595959"
 ```
