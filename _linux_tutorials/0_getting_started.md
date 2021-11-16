@@ -180,9 +180,7 @@ then you'll need to lodge a ticket with the relevant helpdesk. The guides and he
 at the following URLs:
 
 |*Organisation* |*Cluster names* |*User support guide URL* |*Helpdesk* |
-|UQ Research Computing Centre (RCC) |Tinaroo, Awoonga, Wiener |<http://www2.rcc.uq.edu.au/hpc/guides/>
-(must be on the UQ network or VPN to access) |<https://rcc.uq.edu.au/support-desk> |
+|UQ Research Computing Centre (RCC) |Tinaroo, Awoonga, Wiener |<http://www2.rcc.uq.edu.au/hpc/guides/> (must be on the UQ network or VPN to access) |<https://rcc.uq.edu.au/support-desk> |
 |National Computational Infrastructure (NCI) |Gadi |<https://opus.nci.org.au/display/Help/Gadi+User+Guide> | <https://help.nci.org.au>|
-|Pawsey |Magnus |<https://support.pawsey.org.au/documentation/> |
-<https://support.pawsey.org.au/portal/servicedesk/customer/user/login?destination=portals> |
+|Pawsey |Magnus |<https://support.pawsey.org.au/documentation/> | <https://support.pawsey.org.au/portal/servicedesk/customer/user/login?destination=portals> |
 
