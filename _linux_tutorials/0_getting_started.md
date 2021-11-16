@@ -164,7 +164,11 @@ If you already know how to use compute clusters (e.g. navigating, running jobs a
 commands) then you're good to go! If not, CTCMS has guides on [introduction to the Linux 
 command-line](https://ctcms-uq.github.io/linux_tutorials/intro_linux.html) and [advanced Linux 
 command-line usage](https://ctcms-uq.github.io/linux_tutorials/intermediate_linux.html)
-which should be enough to get you up and running. We also have a guide on [visualising and plotting data
+which should be enough to get you up and running. If you prefer video tutorials, the Queensland Cyber
+Infrastructure Fund (QCIF)'s Marlies Hankel has produced a series of short instruction videos on the
+basics of Linux and HPC which are available on [the QCIF YouTube
+page](https://www.youtube.com/channel/UCJVnaPvGqyupk9iVPF9A-Lg). CTCMS also has a guide on 
+[visualising and plotting data
 with gnuplot](https://ctcms-uq.github.io/data_tutorials/gnuplot.html), which covers useful tools for
 presenting your research results in an approachable manner.
 
