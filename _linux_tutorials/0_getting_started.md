@@ -69,7 +69,7 @@ In order to connect to a remote server like a cluster you'll need two programs: 
 and an *SFTP* client. Windows 10 has both of these built in, but they must be accessed from the command
 line. To use them, launch either `cmd.exe` or `Powershell` and run the commands `ssh.exe` or `sftp.exe`,
 following the instructions in the [CTCMS introduction to 
-Linux](https://ctcms-uq.github.io/linux_tutorials/intro_linux.html).
+Linux](/linux_tutorials/1_intro_linux.html).
 
 It might also be useful to install the Python programming language on your computer, as this is a very
 commonly-used tool in computational science. Follow the installation instructions on the 
@@ -162,14 +162,14 @@ signed up.)
 # The next steps
 If you already know how to use compute clusters (e.g. navigating, running jobs and important Linux
 commands) then you're good to go! If not, CTCMS has guides on [introduction to the Linux 
-command-line](https://ctcms-uq.github.io/linux_tutorials/intro_linux.html) and [advanced Linux 
-command-line usage](https://ctcms-uq.github.io/linux_tutorials/intermediate_linux.html)
+command-line](/linux_tutorials/1_intro_linux.html) and [advanced Linux 
+command-line usage](/linux_tutorials/2_advanced_linux.html)
 which should be enough to get you up and running. If you prefer video tutorials, the Queensland Cyber
 Infrastructure Fund (QCIF)'s Marlies Hankel has produced a series of short instruction videos on the
 basics of Linux and HPC which are available on [the QCIF YouTube
 page](https://www.youtube.com/channel/UCJVnaPvGqyupk9iVPF9A-Lg). CTCMS also has a guide on 
 [visualising and plotting data
-with gnuplot](https://ctcms-uq.github.io/data_tutorials/gnuplot.html), which covers useful tools for
+with gnuplot](/data_tutorials/gnuplot.html), which covers useful tools for
 presenting your research results in an approachable manner.
 
 Each of the clusters have extensive user support documentation which covers topics including compiling

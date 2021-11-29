@@ -6,7 +6,7 @@ categories: linux command-line
 ---
 
 This guide is for those who have some level of familiarity with bash (or some other Mac or Linux shell),
-either because you've read our [introductory guide](link_goes_here) or because you've used the command
+either because you've read our [introductory guide](/linux_tutorials/1_intro_linux.html) or because you've used the command
 line for a while and want to know more. In either case, welcome. This guide will be a little bit less
 structured than the introductory one, as it will serve as a grab-bag of useful tips and tricks to make
 you more efficient when using the shell.
