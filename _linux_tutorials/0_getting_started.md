@@ -113,7 +113,7 @@ it):
 |*Distribution*  |*Install software*       |*Update software*  |*Search for software* |
 |Ubuntu/Debian   |`sudo apt install <pkg>` |`sudo apt upgrade` |`apt search <query>`  |
 |Fedora/CentOS   |`sudo dnf install <pkg>` |`sudo dnf update`  |`dnf search <query>`  |
-|Arch/Manjaro    |`sudo pacman -Syu <pkg>` |`sudo pacman -Syu` |`pacman -S <query>`   |
+|Arch/Manjaro    |`sudo pacman -S <pkg>`   |`sudo pacman -Syu` |`pacman -Ss <query>`  |
 
 Almost every Linux distribution should come with the `ssh` and `sftp` utilities, which you
 can run in a terminal via the respective commands. Almost every distribution also comes with a version
