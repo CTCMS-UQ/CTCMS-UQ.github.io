@@ -1,7 +1,8 @@
 ---
-title: Research data management services at UQ
-author: Emily Kahl
-tags: data
+layout: page
+title: "Research data management services at UQ"
+author: "Emily Kahl"
+categories: data
 ---
 
 Data management is extremely important in research, but the variety of options for managing research
