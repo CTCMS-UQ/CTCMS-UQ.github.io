@@ -50,6 +50,29 @@ You can access your RDM as a folder using your computer's file manager by mounti
 drive. General instructions can be found [here](https://guides.library.uq.edu.au/for-researchers/uq-research-data-manager/using-mapped-drive),
 while AIBN-specific instructions for high-speed access can be found [here](https://guides.library.uq.edu.au/for-researchers/uq-research-data-manager/instructions-for-institutes).
 
+### Accessing the RDM through the Nextcloud and ownCloud sync clients
+RDM also supports access through open-source desktop sync clients [NextCloud](https://nextcloud.com/) 
+and [ownCloud](https://owncloud.com/) which automatically synchronise files between a folder on
+your local computer and the RDM, in a similar fashion to Dropbox. To use Nextcloud to synchronise files 
+with your RDM, follow the instructions in [this guide](https://guides.library.uq.edu.au/for-researchers/uq-research-data-manager/uq-rdmcloud-sync-client)
+provided by the UQ Library. 
+
+The guide also works for ownCloud (meaning you can use the same
+program to synchronise with the RDM and AARNet's CloudStor), with the following exception: in step
+2 of [the guide for UQ users](https://guides.library.uq.edu.au/for-researchers/uq-research-data-manager/setting-up-sync-client-uq-users),
+you'll need to generate a temporary password to use with ownCloud, since it doesn't natively
+support two-factor authentication. You can do this
+through the RDM web interface at <cloud.rdm.uq.edu.au>. Log in to the web interface then click on your 
+initials in the top right corner of the page and select "settings". In the "security" tab on the left 
+side of the settings page, there will be an option to "create new app password" (you may have to scroll down 
+to find it); create a new password and give it a descriptive name like "owncloud". Copy the password somewhere
+safe before leaving the page - I recommend a secure password manager from [this list](https://web.library.uq.edu.au/research-tools-techniques/digital-essentials/password-management?p=3#3)
+by the UQ Library. You can delete the app-password from the same page in the RDM web interface if you no 
+longer need it.
+
+Use your UQ email address and the temporary password when prompted to provide a username and password
+for ownCloud, then follow the rest of the steps in the UQ library guide.
+
 ### Accessing the RDM via SSH/SFTP
 You can access your RDM from the command line through the SSH/SFTP interface provided by QCIF's 
 [QRISCloud](https://www.qriscloud.org.au/support/qriscloud-documentation/93-using-qrisdata-collections). 
