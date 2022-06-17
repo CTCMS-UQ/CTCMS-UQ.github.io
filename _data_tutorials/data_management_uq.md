@@ -22,6 +22,12 @@ Manager](https://rdm.uq.edu.au/) (RDM) and AARNet's [CloudStor](https://www.aarn
 These resources are not mutually exclusive and serve different needs - you can and should make heavy use
 of both of them when managing your research data.
 
+Additionally, the Pawsey Centre has developed a new service for long-term research data storage to be
+used with the new *Setonix* cluster. This service is an *object storage service* called *Acacia* and is
+intended to provide research data storage for the lifetime of our projects at the Pawsey centre. It is
+substantially different from traditional hierarchical filesystems, so will require a different workflow
+to what you may be used to from Magnus.
+
 ## UQ RDM
 The Research Data Manager is a long-term research data storage service managed by the University of
 Queensland. The service is available to all UQ researchers and research students, and access is organised
@@ -348,6 +354,84 @@ you'll need to load the module with `module load rclone` then follow the instruc
 for RDM and/or CloudStor from earlier in this guide. Rclone is also installed on Gadi, but 
 is available on login without needing to load a software module.
 
+# Changes with Setonix - the Acacia object storage
+Acacia is a new long-term research data storage service maintained by Pawsey to work in 
+tandem with the new *Setonix* cluster.
+
+Setonix will use a different set of filesystems to the `/home`, 
+`/group` and `/scratch` setup used by Magnus, Topaz and Zeus. Setonix will still have `/home` 
+and `/scratch`, which will behave as they did on Magnus - i.e. `/home` is for storing 
+configuration files and scripts and `/scratch` is for short-term storage of files. The `/group`
+filesystem will be replaced with two separate services: `/software`, which is a standard Linux
+filesystem for storing application executables, while long-term research data will be stored on Acacia.
+
+Acacia is different from the other long-term data storage services in this guide as it is an *object
+store*. Object storage uses a fundamentally different model of data storage and management than
+traditional hierarchical filesystems (like `/home` and `/scratch`) in that it is designed from the
+ground up to store *unstructured data*. 
+
+There are no folders, directories or hierarchies in an object
+store - data is stored as binary *objects* and organised into *buckets*. As this metaphor would suggest,
+objects are not organised *within* buckets - you chuck the data in and let the object storage system
+figure out what to do with it. Instead of accessing data by filename and path, you instead access
+objects by a unique identifier string, with the ability to search for objects based on a rich set of
+user-supplied metadata. Object stored support a much wider range of file metadata than traditional
+filesystems, as you can define any arbitrary key-value pairs to attach to an object (note: metadata is
+limited to 2KB per object). For example, you can tag a molecular structure file with its molecular
+formula, number of atoms it contains, the software used to create it or anything else that might be
+relevant when looking for it later.
+
+Object storage requires a different workflow to traditional filesystems. Most importantly, objects
+cannot be modified in-place on the object server, a property called *atomicity*. Instead of the 
+traditional I/O workflow of applications modifying files with many small, incremental reads and writes
+(e.g. writing output as it is generated), an object store requires you to first *check out* a file into
+local storage (e.g. `/scratch` or your local computer), make modifications locally, then check it back
+in to the object store (overwriting the old data). As such, object storage is particularly well suited
+to data which is read more often than it is written, such as molecular structure files you might use as
+the starting point for an MD simulation. Frequently written files like checkpoint files or MD
+trajectories should not be stored on Acacia - write them to `/scratch` and then move to long-term
+storage once you're done with them.
+
+Fortunately, the Pawsey Centre has some nice tutorials and very thorough documentation on object storage
+in general and Acacia in particular, including suggested workflows for using Acacia with Setonix. Check
+out the following links for more information:
+
+1. Video tutorials on YouTube: <https://www.youtube.com/playlist?list=PLmu61dgAX-aYxrbqtSYHS1ufVZ9xs1AnI>
+  * Watch these two videos first. They aren't as thorough as the written documentation, but is a nicer
+    introduction to the general concepts.
+2. Acacia user guide: <https://support.pawsey.org.au/documentation/display/US/Acacia+-+User+Guide>
+  * Check this guide if you have questions or need reminders of specific commands.
+  * Follow the instructions in this guide when you access Acacia from Setonix.
+3. Acacia user portal: <https://portal.pawsey.org.au/origin/portal/account/acaciabuckets>
+  * Use this web interface to manage access keys and check buckets/storage usage.
+
+## Accessing Acacia with rclone
+It is also possible to access data on Acacia using rclone, through its `S3` interface. This will allow
+you to create and delete buckets, upload and download objects and synchronise with external storage
+(including CloudStor and UQ RDM). rclone's support for user-generated metadata is limited, though, so
+you'll need to use one of the other tools mentioned in the [Acacia user guide](https://support.pawsey.org.au/documentation/display/US/Acacia+-+User+Guide)
+to tag objects.
+
+Setup is less involved than for CloudStor or the RDM, as Pawsey will provide an rclone configuration
+when you create a new access key for Acacia. Simply copy the parameters from this sample configuration
+when doing `rclone config`, or paste the configuration into `.config/rclone/rclone.conf` if you haven't
+encrypted your rclone configuration file (**don't do this if your config is encrypted, as it could break
+your configuration**). As always, make sure to give the remote a descriptive name such as `acacia`.
+
+For information on usage, see the rclone user documentation for the `S3` protocol: <https://rclone.org/s3/>.
+The basic syntax is similar to using rclone for CloudStor or the RDM - refer to buckets *as if* they
+were folders on the remote (even though they technically aren't) and everything should Just Work. Some
+basic commands:
+
+- `rclone lsd <remote>:` will list all buckets you have on Acacia
+- `rclone mkdir <remote>:<bucket>` will create a new bucket on Acacia
+- `rclone ls <remote>:<bucket>` will list the objects in a bucket
+- `rclone copy <some_file> <remote>:<bucket>` to copy a file to a bucket
+
+Some rclone commands can cause data loss, so it's important to test the command first by running rclone
+with the `--dry-run` command (e.g. `rclone --dry-run <command>`) to make sure you don't accidentally
+delete something you didn't mean to.
+
 # Useful links
 ## UQ RDM
 - UQ RDM knowledge base: <https://rdm.uq.edu.au/resources>
@@ -363,3 +447,8 @@ is available on login without needing to load a software module.
 - QRISCloud data documentation (for RDM): <https://www.qriscloud.org.au/support/qriscloud-documentation/93-using-qrisdata-collections>
 - Pawsey data workflow documentation: <https://support.pawsey.org.au/documentation/display/US/Data+Documentation>
 - Gadi user guide: <https://opus.nci.org.au/display/Help/Gadi+User+Guide>
+## Acacia
+- Video tutorials on the Pawsey YouTube channel: <https://www.youtube.com/playlist?list=PLmu61dgAX-aYxrbqtSYHS1ufVZ9xs1AnI>
+- Acacia user guide: <https://support.pawsey.org.au/documentation/display/US/Acacia+-+User+Guide>
+- Acacia user portal: <https://portal.pawsey.org.au/origin/portal/account/acaciabuckets>
+- rclone documentation for S3 object stores: <https://rclone.org/s3>
