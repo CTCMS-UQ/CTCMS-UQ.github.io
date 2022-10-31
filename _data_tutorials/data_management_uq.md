@@ -180,6 +180,11 @@ but the basic commands are as follows:
 Full documentation for Rclone can also be found on the project's website: <https://rclone.org/>.
 
 ## AARNet CloudStor
+**IMPORTANT UPDATE 31/10/2022:** AARNet has [announced that Cloudstor will be decomissioned at the end of
+2023](https://support.aarnet.edu.au/hc/en-us/articles/5697089309711). Any data still on the service at
+that point will be lost, so if you use CloudStor then start transferring your data off the service ASAP
+so you're not caught out.
+
 [CloudStor](https://www.aarnet.edu.au/cloudstor) is a cloud storage platform for research data 
 provided by AARNet - Australia's Academic and Research Network. [AARNet](https://www.aarnet.edu.au/who-we-are) 
 maintains the IT and communications infrastructure used by Australian universities and research 
@@ -416,7 +421,18 @@ Setup is less involved than for CloudStor or the RDM, as Pawsey will provide an 
 when you create a new access key for Acacia. Simply copy the parameters from this sample configuration
 when doing `rclone config`, or paste the configuration into `.config/rclone/rclone.conf` if you haven't
 encrypted your rclone configuration file (**don't do this if your config is encrypted, as it could break
-your configuration**). As always, make sure to give the remote a descriptive name such as `acacia`.
+your configuration**). As always, make sure to give the remote a descriptive name such as `acacia`. Here
+is an example of an rclone config for Acacia:
+
+```
+[acacia]
+type = s3
+provider = ceph
+access_key_id = <your_ID_key>
+secret_access_key = <your_secret_key>
+endpoint = https://projects.pawsey.org.au
+acl = private
+```
 
 For information on usage, see the rclone user documentation for the `S3` protocol: <https://rclone.org/s3/>.
 The basic syntax is similar to using rclone for CloudStor or the RDM - refer to buckets *as if* they
