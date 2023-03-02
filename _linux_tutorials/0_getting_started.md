@@ -141,20 +141,19 @@ Here's a table with the organisations, clusters, project ID and signup links for
 we use:
 
 |*Organisation* |*Cluster names* |*Signup link* |
-|UQ Research Computing Centre (RCC) |Tinaroo, Awoonga, Wiener |<https://rcc.uq.edu.au/high-performance-computing> |
+|UQ Research Computing Centre (RCC) |Bunya, Wiener |<https://rcc.uq.edu.au/high-performance-computing> |
 |National Computational Infrastructure (NCI) |Gadi |<https://nci.org.au/users/how-access-nci> |
-|Pawsey |Magnus |<https://support.pawsey.org.au/portal/servicedesk/customer/user/signup> |
+|Pawsey |Setonix |<https://support.pawsey.org.au/portal/servicedesk/customer/user/signup> |
 
 (Note that when signing up for Pawsey clusters, you may need to ask your group leader to invite you to
 the relevant project/s before you can log in to the clusters.)
 
 Once you have an account, you can log in to the clusters via SSH using the following commands:
 
-|Tinaroo(RCC)     |`ssh username@tinaroo.rcc.uq.edu.au`   |
-|Awoonga(RCC)     |`ssh username@awoonga.rcc.uq.edu.au`   |
+|Bunya (RCC)      |`ssh username@bunya.rcc.uq.edu.au`     |
 |Wiener(RCC)      |`ssh username@wiener.hpc.dc.uq.edu.au` |
 |Gadi (NCI)       |`ssh username@gadi.nci.org.au`         |
-|Magnus (Pawsey)  |`ssh username@magnus.pawsey.org.au`    |
+|Setonix (Pawsey)  |`ssh username@magnus.pawsey.org.au`    |
 
 (Replace `username` with your username on the cluster, which would have been sent in an email when you 
 signed up.)
@@ -180,7 +179,7 @@ then you'll need to lodge a ticket with the relevant helpdesk. The guides and he
 at the following URLs:
 
 |*Organisation* |*Cluster names* |*User support guide URL* |*Helpdesk* |
-|UQ Research Computing Centre (RCC) |Tinaroo, Awoonga, Wiener |<http://www2.rcc.uq.edu.au/hpc/guides/> (must be on the UQ network or VPN to access) |<https://rcc.uq.edu.au/support-desk> |
+|UQ Research Computing Centre (RCC) |Bunya, Wiener |<https://github.com/UQ-RCC/hpc-docs> |<https://rcc.uq.edu.au/support-desk> |
 |National Computational Infrastructure (NCI) |Gadi |<https://opus.nci.org.au/display/Help/Gadi+User+Guide> | <https://help.nci.org.au>|
-|Pawsey |Magnus |<https://support.pawsey.org.au/documentation/> | <https://support.pawsey.org.au/portal/servicedesk/customer/user/login?destination=portals> |
+|Pawsey |Setonix |<https://support.pawsey.org.au/documentation/> | <https://support.pawsey.org.au/portal/servicedesk/customer/user/login?destination=portals> |
 

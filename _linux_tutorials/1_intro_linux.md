@@ -125,10 +125,10 @@ find out. These optional parameters which modify commands' behaviour are referre
 
 Finally, managed HPC clusters usually have very good online documentation. The big three you're likely
 to use at UQ are [UQ's Research Computing
-Centre](http://www2.rcc.uq.edu.au/hpc/guides/index.html?secure/Reading_Guide.html) (for Tinaroo and 
-Awoonga), [NCI](https://opus.nci.org.au/display/Help/Gadi+User+Guide) (for Gadi), and 
+Centre](https://github.com/UQ-RCC/hpc-docs) (for Bunya and 
+Wiener), [NCI](https://opus.nci.org.au/display/Help/Gadi+User+Guide) (for Gadi), and 
 [the Pawsey Centre](https://support.pawsey.org.au/documentation/display/US/User+Support+Documentation) 
-(for Magnus). These online resource contain both general information (e.g. compiling and using 
+(for Setonix). These online resource contain both general information (e.g. compiling and using 
 software), and information specific to using those clusters (e.g. running and checking the status of
 computational jobs).
 
@@ -136,9 +136,9 @@ computational jobs).
 Before you can use the clusters, you'll need to apply for an account with the organisation that manages
 them - your supervisor will be able to tell you which ones you'll be using and will need to approve your
 application. The relevant signup forms are:
-- RCC (Tinaroo, Awoonga and Wiener): <https://rcc.uq.edu.au/high-performance-computing>
+- RCC (Bunya and Wiener): <https://rcc.uq.edu.au/high-performance-computing>
 - NCI (Gadi): <https://my.nci.org.au/mancini/signup/0>
-- Pawsey (Magnus): <https://pawsey.org.au/support/>
+- Pawsey (Setonix): <https://pawsey.org.au/support/>
 
 Once your account is established, the next step is to log on to the cluster over the internet via a
 program called *SSH*. This will establish a connection between your computer's terminal and the
@@ -154,22 +154,21 @@ have been sent in an email when you signed up) and `cluster.address` is the netw
 cluster - this can be found in the online documentation of the cluster you're logging in to. The SSH 
 commands for the big-three clusters you're likely to use are:
 
-|Tinaroo(RCC)     |`ssh username@tinaroo.rcc.uq.edu.au`   |
-|Awoonga(RCC)     |`ssh username@awoonga.rcc.uq.edu.au`   |
+|Bunya (RCC)     |`ssh username@bunya.rcc.uq.edu.au`   |
 |Wiener(RCC)      |`ssh username@wiener.hpc.dc.uq.edu.au` |
 |Gadi (NCI)       |`ssh username@gadi.nci.org.au`         |
-|Magnus (Pawsey)  | `ssh username@magnus.pawsey.org.au`   |
+|Setonix (Pawsey)  | `ssh username@setonix.pawsey.org.au`   |
 
 Your terminal may print a warning about "unknown server", type "yes" to continue. The process is almost
 the same on Windows, except you need to open a command line window (either `cmd.exe` or Powershell) and
 run `ssh.exe <username@cluster.address>`.
 
 If there are no errors, you should now see a new *prompt* (the words and characters just to the left of
-where commands appear when you type) that looks something like `username@magnus-1:~>` (it will be
+where commands appear when you type) that looks something like `username@setonix-1:~>` (it will be
 different for different clusters), which means that any commands you type in this window will be
 executed on the cluster. Congrats! You're now using a supercomputer. 
 
-Many clusters (including Magnus, Gadi and Tinaroo) will print a welcome notice when you first SSH in. 
+Many clusters (including Setonix, Gadi and Bunya) will print a welcome notice when you first SSH in. 
 This notice usually includes information on upcoming maintenance, information about recent changes to 
 the system and a reminder of where to get help. These are usually worth paying attention to, as it's one
 of the main way that the cluster's maintainers get information to you.
@@ -381,10 +380,10 @@ all users. Not only is this bad for your code's performance, you'll probably get
 system administrator telling you to knock it off (which is never fun). Instead, you should run jobs in a
 temporary directory on the scratch space. Scratch filesystems are usually designed to handle lots of
 activity without slowing under the load, while also having much more storage available for use than your
-home directory will. On *Gadi* and *Magnus*, the scratch directory has the path
+home directory will. On *Gadi* and *Setonix*, the scratch directory has the path
 `/scratch/<PROJECT>/username` (where you replace `PROJECT` with the project code your research group is
 using. Ask your supervisor for this if you're unsure. Replace `username` with the username you use to
-login to Magnus or Gadi), while the RCC systems have `/30days/<username>`
+login to Setonix or Gadi), while the RCC systems have `/30days/<username>`
 and `/90days/<username>` (where `username` is your UQ username). As the name might suggest, `/30days` is
 cleared out every 30 days, while `/90days` is cleared out every 90 days.
 
@@ -431,7 +430,7 @@ system:
 
 - [nano](https://www.nano-editor.org/docs.php): a simple, no-frills text editor. It has no special
   features - it just opens, writes and saves text files. Nano is very easy to use, and is the closest
-  equivalent to a "notepad" type application on the Linux command-line. Magnus requires you to load the
+  equivalent to a "notepad" type application on the Linux command-line. Setonix requires you to load the
   `nano` module before you can use it (via `module load nano`).
 - [vim](https://www.linux.com/training-tutorials/vim-101-beginners-guide-vim/): a more
   fully-featured and customisable text editor with loads of special features like syntax-highlighting
@@ -614,7 +613,7 @@ project is given a budget of a certain number of *service units* (SUs), which re
 resources and time a project is allowed to use in a quarter (i.e. three months), and are shared between
 all members of a project. Whenever anyone in the project runs a job, an amount of service units are
 deducted from the project's budget, which can be checked by running `nci_account` on Gadi or
-`pawseyAccountBalance` on Magnus.
+`pawseyAccountBalance` on Setonix.
 
 Regardless of the underlying job scheduler, you should *never* run large computational jobs such as
 simulations or compiling large codebases on the login nodes. Anything which may take more than a few
@@ -669,8 +668,8 @@ need to make a new connection to the cluster before you can start using them: in
 achieved by clicking the "New Connection" button in the main window, while WinSCP will automatically
 launch a wizard to do this when you start it. Make sure to select "SFTP" as the "File Protocol", then
 enter the cluster's address under "Host Name", then enter your username and password. For example, if
-your username is `jsmith` and you want to transfer files to or from Magnus, you would enter
-`magnus.pawsey.org.au` as the Host Name and `jsmith` as the username.
+your username is `jsmith` and you want to transfer files to or from Setonix, you would enter
+`setonix.pawsey.org.au` as the Host Name and `jsmith` as the username.
 
 The command-line program `sftp` is almost universally available, and only slightly-less user-friendly
 than the graphical programs. Mac and Windows both have command-line clients which function the same way;
@@ -823,9 +822,9 @@ Finally, here are some useful commands, tips and tricks that didn't quite fit el
 - Easier SSH and SFTP logins for Mac and Linux: to save having to memorise and type out the 
   username+address combination for every cluster you use, it's useful to save the various addresses in 
   the `.bashrc` on your personal computer. The best way to do this is by adding a line exporting the 
-  username+address as an environment variable, such as `export tinaroo="username@tinaroo.rcc.uq.edu.au"`
-  (note the quotation marks). This would then allow you to log in to Tinaroo by doing `ssh $tinaroo` and
-  to get files by doing `sftp $tinaroo`. It's a good idea to do this for all clusters you have access
+  username+address as an environment variable, such as `export bunya="username@bunya.rcc.uq.edu.au"`
+  (note the quotation marks). This would then allow you to log in to Bunya by doing `ssh $bunya` and
+  to get files by doing `sftp $bunya`. It's a good idea to do this for all clusters you have access
   to, with each cluster getting its own variable on its own line in the `.bashrc` file.
 
 # Finding executables in non-standard directories
