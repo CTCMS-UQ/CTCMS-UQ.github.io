@@ -153,7 +153,7 @@ Once you have an account, you can log in to the clusters via SSH using the follo
 |Bunya (RCC)      |`ssh username@bunya.rcc.uq.edu.au`     |
 |Wiener(RCC)      |`ssh username@wiener.hpc.dc.uq.edu.au` |
 |Gadi (NCI)       |`ssh username@gadi.nci.org.au`         |
-|Setonix (Pawsey)  |`ssh username@magnus.pawsey.org.au`    |
+|Setonix (Pawsey)  |`ssh username@setonix.pawsey.org.au`    |
 
 (Replace `username` with your username on the cluster, which would have been sent in an email when you 
 signed up.)
